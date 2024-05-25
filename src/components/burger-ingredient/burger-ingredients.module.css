@@ -1,0 +1,22 @@
+.card {
+  position: relative;
+}
+
+.image {
+  display: flex;
+  justify-content: center;
+}
+
+.price {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.price > svg {
+  display: block;
+}
+
+.name {
+  text-align: center;
+}

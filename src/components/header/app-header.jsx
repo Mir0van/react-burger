@@ -3,7 +3,7 @@ import styles from './app-header.module.css';
 
 export default function AppHeader() {
   return (
-    <header className={`${styles.header} pt-4 pb-4`}>
+    <header className={`${styles.header} pt-3 pb-3`}>
       <div className={styles.container}>
         <nav className={styles.nav}>
           <ul className={styles.list}>
