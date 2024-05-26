@@ -1,0 +1,66 @@
+.modal {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+
+  background-color: rgba(0, 0, 0, 0.6);
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.visible {
+  opacity: 1;
+}
+
+.wrapper {
+  position: relative;
+
+  display: flex;
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 100%;
+  padding: 60px 40px;
+}
+
+.content {
+  position: relative;
+
+  width: 720px;
+  padding: 40px;
+  padding-bottom: 60px;
+
+  border: 1px solid rgba(76, 76, 255, 0.2);
+  box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.04), 0 4px 8px 0 rgba(0, 0, 0, 0.04), 0 16px 24px 0 rgba(0, 0, 0, 0.04), 0 24px 32px 0 rgba(0, 0, 0, 0.04);
+  background-color: #1c1c21;
+  border-radius: 40px;
+}
+
+.header {
+  display: flex;
+  align-items: start;
+  min-height: 64px;
+}
+
+.close_btn {
+  background: transparent;
+  margin: 0;
+  margin-top: 20px;
+  padding: 0;
+  border: 0;
+  cursor: pointer;
+  margin-left: auto;
+}
+
+.close_btn > svg {
+  display: block;
+}

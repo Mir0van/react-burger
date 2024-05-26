@@ -1,0 +1,3 @@
+const ANIMATION_DELAY = 300;
+
+export {ANIMATION_DELAY}
