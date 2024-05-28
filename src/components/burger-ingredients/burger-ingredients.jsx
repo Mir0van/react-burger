@@ -1,46 +1,38 @@
-import React, { useEffect, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import styles from './burger-ingredients.module.css';
 import {Tab} from '@ya.praktikum/react-developer-burger-ui-components'
 import IngredientList from '../ingredient-list/ingredient-list';
 import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
+import { ingredientPropType } from '../../utils/prop-types';
 
-export default function BurgerIngredients({
-  ingredientsData, 
-  isLoading, 
-  hasError,
-  isModalRendered, 
-  setIsModalRendered,
-  visible,
-  handleOpenModal,
-  handleCloseModal,
-  selectedIngredient
-}) {
-  const [currentTab, setCurrentTab] = React.useState('bun')
-  const [sortedIngredientsByType, setSortedIngredientsByType] = useState(null);
+export default function BurgerIngredients({ingredientsData, isLoading, hasError}) {
+  const [currentTab, setCurrentTab] = useState('bun')
 
-  useEffect(() => {
-    if (ingredientsData && ingredientsData.length) {
-      const groupedArray = ingredientsData.reduce((acc, item) => {
-        const existingIndex = acc.findIndex(group => group[0]?.type === item.type);
-        if (existingIndex !== -1) {
-          acc[existingIndex].push(item);
-        } else {
-          acc.push([item]);
-        }
-        return acc;
-      }, []);
+  const [isIngredientModalOpen, setIsIngredientModalOpen] = useState(false);
+  const [selectedIngredient, setSelectedIngredient] = useState(null);
 
-      const sortedArray = groupedArray.sort((a, b) => {
-        const order = { bun: 1, sauce: 2, main: 3 };
-        return order[a[0].type] - order[b[0].type];
-      });
+  const sortedIngredientsByType = useMemo(() => {
+    if (!ingredientsData || !ingredientsData.length) {
+      return ingredientsData;
+    };
 
-      
-      setSortedIngredientsByType(sortedArray);
-      console.log('перерасчет сортированного списка')
-    }
+    console.log('перерасчет sortedIngredientsByType в BurgerIngredients')
+    const groupedArray = ingredientsData.reduce((acc, item) => {
+      const existingIndex = acc.findIndex(group => group[0]?.type === item.type);
+      if (existingIndex !== -1) {
+        acc[existingIndex].push(item);
+      } else {
+        acc.push([item]);
+      }
+      return acc;
+    }, []);
+
+    return groupedArray.sort((a, b) => {
+      const order = { bun: 1, sauce: 2, main: 3 };
+      return order[a[0].type] - order[b[0].type];
+    });
   }, [ingredientsData]);
 
   const getIngredientTypeTitle = (type) => {
@@ -56,14 +48,13 @@ export default function BurgerIngredients({
     }
   };
 
-  // console.log(ingredientsData, 'ingredientsData')
-  // console.log(selectedIngredient, 'selectedIngredient')
+  // console.log(sortedIngredientsByType, 'sortedIngredientsByType')
 
   return (
     <>
       <section className={styles.section}>
         <h2 className='text text_type_main-large mb-5'>Соберите бургер</h2>
-        <div className='mb-10' style={{ display: 'flex' }}>
+        <div className={`${styles.tabs}  mb-10`}>
           <Tab value="bun" active={currentTab === 'bun'} onClick={setCurrentTab}>
             Булки
           </Tab>
@@ -78,53 +69,35 @@ export default function BurgerIngredients({
         <div className={`${styles.ingredients__container} custom-scroll`}>
           {isLoading && <p className='text text_type_main-medium'>Загрузка...</p>}
           {hasError && <p className='text text_type_main-medium'>Произошла ошибка...</p>}
+
           {sortedIngredientsByType 
-            && sortedIngredientsByType.length
+            && sortedIngredientsByType.length > 0
             && sortedIngredientsByType.map((ingredients) => (
               <IngredientList 
                 key={ingredients[0].type}
                 title={getIngredientTypeTitle(ingredients[0].type)} 
                 ingredients={ingredients}
-                handleOpenModal={handleOpenModal}
+                setIsIngredientModalOpen={setIsIngredientModalOpen}
+                setSelectedIngredient={setSelectedIngredient}
               />
           ))}
         </div>
       </section>
-
-      {visible === 'ingredientDetails' && selectedIngredient &&
+      
+      {isIngredientModalOpen && (
         <Modal
           header={'Детали ингредиента'}
-          onCloseClick={handleCloseModal}
-          setIsModalRendered={setIsModalRendered}
-          isModalRendered={isModalRendered}
+          onClose={() => {setIsIngredientModalOpen(false)}}
         >
           <IngredientDetails selectedIngredient={selectedIngredient}/>
-        </Modal>
+        </Modal>)
       }
     </>
   )
 }
 
 BurgerIngredients.propTypes = {
-  ingredientsData: PropTypes.arrayOf(PropTypes.shape({
-    _id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    proteins: PropTypes.number.isRequired,
-    fat: PropTypes.number.isRequired,
-    carbohydrates: PropTypes.number.isRequired,
-    calories: PropTypes.number.isRequired,
-    price: PropTypes.number.isRequired,
-    image: PropTypes.string.isRequired,
-    image_mobile: PropTypes.string.isRequired,
-    image_large: PropTypes.string.isRequired,
-    __v: PropTypes.number.isRequired
-  })),
+  ingredientsData: PropTypes.arrayOf(ingredientPropType).isRequired,
   isLoading: PropTypes.bool,
   hasError: PropTypes.bool,
-  isModalRendered: PropTypes.bool.isRequired,
-  visible: PropTypes.string.isRequired,
-  handleOpenModal: PropTypes.func.isRequired,
-  handleCloseModal: PropTypes.func.isRequired,
-  selectedIngredient: PropTypes.object,
 };

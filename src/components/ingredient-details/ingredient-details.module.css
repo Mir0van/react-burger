@@ -17,3 +17,8 @@
   grid-template-columns: 120px 112px 112px 112px;
   column-gap: 20px;
 }
+
+.defenition,
+.text {
+  text-align: center;
+}

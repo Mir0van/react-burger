@@ -12,3 +12,7 @@
   scrollbar-width: thin;
   row-gap: 40px;
 }
+
+.tabs {
+  display: flex;
+}

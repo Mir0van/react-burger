@@ -8,18 +8,20 @@
 .burger_constructor {
   display: flex;
   flex-direction: column;
-  align-items: end;
   min-height: 0;
   gap: 16px;
-  padding: 0 16px;
+  padding-left: 48px;
 }
 
 .burger_constructor_scroll {
   composes: burger_constructor;
 
   padding-left: 0;
+  padding-right: 16px;
+  margin-left: -32px;
   margin-right: -16px;
   overflow-y: auto;
+  overflow-x: hidden;
   scrollbar-width: thin;
 }
 
@@ -34,4 +36,14 @@
   display: block;
   width: 24px;
   height: 24px;
+}
+
+.order_wrapper {
+  display: flex;
+  justify-content: end;
+}
+
+.currency_wrapper {
+  display: flex;
+  align-items: center;
 }
