@@ -21,7 +21,7 @@ function App() {
       })
       .finally(() => {
         setIsLoading(false);
-      });;
+      });
   }, []);
 
   return (

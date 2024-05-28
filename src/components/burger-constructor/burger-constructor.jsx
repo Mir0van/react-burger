@@ -17,7 +17,7 @@ export default function BurgerConstructor({ingredientsData}) {
     };
   }, [ingredientsData]);
 
-  return ingredientsData && ingredientsData.length && (
+  return ingredientsData && Boolean(ingredientsData.length) && (
     <section className={styles.section}>
       <h2 className='visually-hidden'>Конструктор бургеров</h2>
       <div className={`${styles.burger_constructor} mb-10`}>
