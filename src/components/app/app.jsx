@@ -12,10 +12,10 @@ function App() {
 
   useEffect(() => {
     getIngredients()
-      .then(data => {
-        setIngredientsData(data.data);
+      .then(({data}) => {
+        setIngredientsData(data);
       })
-      .catch(error => {
+      .catch((error) => {
         setHasError(true);
         console.error("Error fetching ingredients:", error);
       })

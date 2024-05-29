@@ -48,6 +48,8 @@ export default function BurgerIngredients({ingredientsData, isLoading, hasError}
     }
   };
 
+  const handlerCloseModal = () => setIsIngredientModalOpen(false);
+
   // console.log(sortedIngredientsByType, 'sortedIngredientsByType')
 
   return (
@@ -87,7 +89,7 @@ export default function BurgerIngredients({ingredientsData, isLoading, hasError}
       {isIngredientModalOpen && (
         <Modal
           header={'Детали ингредиента'}
-          onClose={() => {setIsIngredientModalOpen(false)}}
+          onClose={handlerCloseModal}
         >
           <IngredientDetails selectedIngredient={selectedIngredient}/>
         </Modal>)

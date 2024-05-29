@@ -17,6 +17,9 @@ export default function BurgerConstructor({ingredientsData}) {
     };
   }, [ingredientsData]);
 
+  const handlerOpenModal = () => setIsOrderModalOpen(true);
+  const handlerCloseModal = () => setIsOrderModalOpen(false);
+
   return ingredientsData && Boolean(ingredientsData.length) && (
     <section className={styles.section}>
       <h2 className='visually-hidden'>Конструктор бургеров</h2>
@@ -54,13 +57,13 @@ export default function BurgerConstructor({ingredientsData}) {
           <p className='text text_type_digits-medium mr-2'>610</p>
           <CurrencyIcon />
         </div>
-        <Button htmlType="button" type="primary" size="large" onClick={() => setIsOrderModalOpen(true)}>Оформить заказ</Button>
+        <Button htmlType="button" type="primary" size="large" onClick={handlerOpenModal}>Оформить заказ</Button>
       </div>
 
       {isOrderModalOpen && (
         <Modal
           header={''}
-          onClose={() => setIsOrderModalOpen(false)}
+          onClose={handlerCloseModal}
         >
           <OrderDetails/>
         </Modal>)

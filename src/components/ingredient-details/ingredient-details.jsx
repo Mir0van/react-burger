@@ -4,8 +4,7 @@ import PropTypes from 'prop-types';
 import { ingredientPropType } from '../../utils/prop-types';
 
 export default function IngredientDetails({selectedIngredient}) {
-  // console.log(selectedIngredient, 'selectedIngredient')
-  return selectedIngredient && (
+  return (
     <div className={styles.container}>
       <div className={`${styles.image} mb-3`}>
         <img src={selectedIngredient.image_large} width={480} height={240} alt={selectedIngredient.name} />
