@@ -1,0 +1,55 @@
+.header {
+  box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.04), 0 4px 8px 0 rgba(0, 0, 0, 0.04), 0 16px 24px 0 rgba(0, 0, 0, 0.04), 0 24px 32px 0 rgba(0, 0, 0, 0.04);
+  background-color: #1c1c21;
+}
+
+.container {
+  box-sizing: border-box;
+
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.nav {
+  position: relative;
+  display: grid;
+  align-items: center;
+  grid-template-columns: auto auto;
+  justify-content: space-between;
+}
+
+.list {
+  box-sizing: border-box;
+
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+
+  display: flex;
+  column-gap: 8px;
+}
+
+.link {
+  box-sizing: border-box;
+  background-color: transparent;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  column-gap: 8px;
+  border-radius: 40px;
+  text-decoration: none;
+}
+
+.logo-link {
+  position: absolute;
+  display: block;
+  justify-self: center;
+}
+
+.logo-link > svg {
+  display: block;
+}

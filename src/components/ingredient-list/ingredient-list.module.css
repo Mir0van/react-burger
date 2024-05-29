@@ -1,0 +1,9 @@
+.ingredient__list {
+  margin: 0;
+  padding: 0 8px 0 16px;
+  list-style-type: none;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 24px;
+}

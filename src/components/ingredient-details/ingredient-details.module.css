@@ -1,0 +1,24 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.image {
+  aspect-ratio: 480/240;
+}
+
+.list {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+
+  display: grid;
+  grid-template-columns: 120px 112px 112px 112px;
+  column-gap: 20px;
+}
+
+.defenition,
+.text {
+  text-align: center;
+}
