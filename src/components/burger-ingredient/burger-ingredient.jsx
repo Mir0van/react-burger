@@ -6,15 +6,15 @@ import { ingredientPropType } from '../../utils/prop-types';
 
 export default function BurgerIngredient({ ingredient, setIsIngredientModalOpen, setSelectedIngredient }) {
 
-  const handlerOpenModal = () => {
-    setIsIngredientModalOpen(true); 
+  const handleOpenModal = () => {
+    setIsIngredientModalOpen(true);
     setSelectedIngredient(ingredient);
   }
 
   return (
-    <li 
-      className={styles.item} 
-      onClick={handlerOpenModal}
+    <li
+      className={styles.item}
+      onClick={handleOpenModal}
     >
       <div className={styles.card}>
         <div className={`${styles.image} mb-2`}>

@@ -4,9 +4,9 @@ import { ConstructorElement, CurrencyIcon, DragIcon, Button } from '@ya.praktiku
 import { useMemo, useState } from 'react';
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
-import {ingredientPropType} from '../../utils/prop-types';
+import { ingredientPropType } from '../../utils/prop-types';
 
-export default function BurgerConstructor({ingredientsData}) {
+export default function BurgerConstructor({ ingredientsData }) {
   const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
 
   const { bun, ingredients } = useMemo(() => {
@@ -17,8 +17,8 @@ export default function BurgerConstructor({ingredientsData}) {
     };
   }, [ingredientsData]);
 
-  const handlerOpenModal = () => setIsOrderModalOpen(true);
-  const handlerCloseModal = () => setIsOrderModalOpen(false);
+  const handleOpenModal = () => setIsOrderModalOpen(true);
+  const handleCloseModal = () => setIsOrderModalOpen(false);
 
   return ingredientsData && Boolean(ingredientsData.length) && (
     <section className={styles.section}>
@@ -57,15 +57,15 @@ export default function BurgerConstructor({ingredientsData}) {
           <p className='text text_type_digits-medium mr-2'>610</p>
           <CurrencyIcon />
         </div>
-        <Button htmlType="button" type="primary" size="large" onClick={handlerOpenModal}>Оформить заказ</Button>
+        <Button htmlType="button" type="primary" size="large" onClick={handleOpenModal}>Оформить заказ</Button>
       </div>
 
       {isOrderModalOpen && (
         <Modal
           header={''}
-          onClose={handlerCloseModal}
+          onClose={handleCloseModal}
         >
-          <OrderDetails/>
+          <OrderDetails />
         </Modal>)
       }
 

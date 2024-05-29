@@ -1,13 +1,13 @@
 import React, { useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import styles from './burger-ingredients.module.css';
-import {Tab} from '@ya.praktikum/react-developer-burger-ui-components'
+import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import IngredientList from '../ingredient-list/ingredient-list';
 import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import { ingredientPropType } from '../../utils/prop-types';
 
-export default function BurgerIngredients({ingredientsData, isLoading, hasError}) {
+export default function BurgerIngredients({ ingredientsData, isLoading, hasError }) {
   const [currentTab, setCurrentTab] = useState('bun')
 
   const [isIngredientModalOpen, setIsIngredientModalOpen] = useState(false);
@@ -48,7 +48,7 @@ export default function BurgerIngredients({ingredientsData, isLoading, hasError}
     }
   };
 
-  const handlerCloseModal = () => setIsIngredientModalOpen(false);
+  const handleCloseModal = () => setIsIngredientModalOpen(false);
 
   // console.log(sortedIngredientsByType, 'sortedIngredientsByType')
 
@@ -72,26 +72,26 @@ export default function BurgerIngredients({ingredientsData, isLoading, hasError}
           {isLoading && <p className='text text_type_main-medium'>Загрузка...</p>}
           {hasError && <p className='text text_type_main-medium'>Произошла ошибка...</p>}
 
-          {sortedIngredientsByType 
+          {sortedIngredientsByType
             && sortedIngredientsByType.length > 0
             && sortedIngredientsByType.map((ingredients) => (
-              <IngredientList 
+              <IngredientList
                 key={ingredients[0].type}
-                title={getIngredientTypeTitle(ingredients[0].type)} 
+                title={getIngredientTypeTitle(ingredients[0].type)}
                 ingredients={ingredients}
                 setIsIngredientModalOpen={setIsIngredientModalOpen}
                 setSelectedIngredient={setSelectedIngredient}
               />
-          ))}
+            ))}
         </div>
       </section>
-      
+
       {isIngredientModalOpen && (
         <Modal
           header={'Детали ингредиента'}
-          onClose={handlerCloseModal}
+          onClose={handleCloseModal}
         >
-          <IngredientDetails selectedIngredient={selectedIngredient}/>
+          <IngredientDetails selectedIngredient={selectedIngredient} />
         </Modal>)
       }
     </>
