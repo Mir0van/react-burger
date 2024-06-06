@@ -1,28 +1,17 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import styles from './app.module.css';
 import AppHeader from '../header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
-import { getIngredients } from '../../utils/burger-api';
+import { getIngredients } from '../../services/ingredients/actions';
+import { useDispatch, useSelector } from 'react-redux';
 
 function App() {
-  const [isLoading, setIsLoading] = useState(true);
-  const [hasError, setHasError] = useState(false)
-  const [ingredientsData, setIngredientsData] = useState([]);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    getIngredients()
-      .then(({data}) => {
-        setIngredientsData(data);
-      })
-      .catch((error) => {
-        setHasError(true);
-        console.error("Error fetching ingredients:", error);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  }, []);
+    dispatch(getIngredients())
+  }, [dispatch])
 
   return (
     <div className={styles.wrapper}>
@@ -30,14 +19,8 @@ function App() {
       <main className={styles.main}>
         <div className={styles.container}>
           <div className={`${styles.section_wrapper} pt-10 pb-10`}>
-            <BurgerIngredients 
-              ingredientsData={ingredientsData} 
-              isLoading={isLoading} 
-              hasError={hasError}
-            />
-            <BurgerConstructor 
-              ingredientsData={ingredientsData}
-            />
+            <BurgerIngredients />
+            <BurgerConstructor />
           </div>
         </div>
       </main>

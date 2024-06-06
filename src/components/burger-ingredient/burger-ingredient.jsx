@@ -1,14 +1,22 @@
 import styles from './burger-ingredients.module.css'
 import React from 'react'
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { ingredientPropType } from '../../utils/prop-types';
+import { useDispatch } from 'react-redux';
+import { INGREDIENT_MODAL_OPEN, setModalVisibility } from '../../services/modals/actions';
+import { ADD_SELECTED_INGREDIENT } from '../../services/ingredients/actions';
 
-export default function BurgerIngredient({ ingredient, setIsIngredientModalOpen, setSelectedIngredient }) {
+export default function BurgerIngredient({ ingredient }) {
+  const dispatch = useDispatch();
 
   const handleOpenModal = () => {
-    setIsIngredientModalOpen(true);
-    setSelectedIngredient(ingredient);
+    dispatch(setModalVisibility(INGREDIENT_MODAL_OPEN, true))
+    
+    dispatch({
+      type: ADD_SELECTED_INGREDIENT,
+      payload: ingredient
+    })
   }
 
   return (
@@ -34,6 +42,6 @@ export default function BurgerIngredient({ ingredient, setIsIngredientModalOpen,
 
 BurgerIngredient.propTypes = {
   ingredient: ingredientPropType,
-  setIsIngredientModalOpen: PropTypes.func.isRequired,
-  setSelectedIngredient: PropTypes.func.isRequired,
+  // setIsIngredientModalOpen: PropTypes.func.isRequired,
+  // setSelectedIngredient: PropTypes.func.isRequired,
 };

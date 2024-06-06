@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styles from './burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
@@ -6,12 +6,16 @@ import IngredientList from '../ingredient-list/ingredient-list';
 import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import { ingredientPropType } from '../../utils/prop-types';
+import { useDispatch, useSelector } from 'react-redux';
+import { INGREDIENT_MODAL_CLOSE, setModalVisibility } from '../../services/modals/actions';
+import { SET_CURRENT_TAB } from '../../services/tabs/actions';
+import { getIngredients } from '../../services/ingredients/actions';
 
-export default function BurgerIngredients({ ingredientsData, isLoading, hasError }) {
-  const [currentTab, setCurrentTab] = useState('bun')
-
-  const [isIngredientModalOpen, setIsIngredientModalOpen] = useState(false);
-  const [selectedIngredient, setSelectedIngredient] = useState(null);
+export default function BurgerIngredients() {
+  const currentTab = useSelector(store => store.tabs.currentTab)
+  const isIngredientModalOpen = useSelector(store => store.modals.isIngredientModalOpen)
+  const {ingredientsData, isLoading, error} = useSelector(store => store.ingredients)
+  const dispatch = useDispatch();
 
   const sortedIngredientsByType = useMemo(() => {
     if (!ingredientsData || !ingredientsData.length) {
@@ -48,29 +52,33 @@ export default function BurgerIngredients({ ingredientsData, isLoading, hasError
     }
   };
 
-  const handleCloseModal = () => setIsIngredientModalOpen(false);
-
-  // console.log(sortedIngredientsByType, 'sortedIngredientsByType')
+  const handleCloseModal = () => dispatch(setModalVisibility(INGREDIENT_MODAL_CLOSE, false));
+  const handleTabClick = (value) => {
+    dispatch({
+      type: SET_CURRENT_TAB,
+      payload: value
+    });
+  };
 
   return (
     <>
       <section className={styles.section}>
         <h2 className='text text_type_main-large mb-5'>Соберите бургер</h2>
         <div className={`${styles.tabs}  mb-10`}>
-          <Tab value="bun" active={currentTab === 'bun'} onClick={setCurrentTab}>
+          <Tab value="bun" active={currentTab === 'bun'} onClick={handleTabClick}>
             Булки
           </Tab>
-          <Tab value="sauce" active={currentTab === 'sauce'} onClick={setCurrentTab}>
+          <Tab value="sauce" active={currentTab === 'sauce'} onClick={handleTabClick}>
             Соусы
           </Tab>
-          <Tab value="main" active={currentTab === 'main'} onClick={setCurrentTab}>
+          <Tab value="main" active={currentTab === 'main'} onClick={handleTabClick}>
             Начинки
           </Tab>
         </div>
 
         <div className={`${styles.ingredients__container} custom-scroll`}>
           {isLoading && <p className='text text_type_main-medium'>Загрузка...</p>}
-          {hasError && <p className='text text_type_main-medium'>Произошла ошибка...</p>}
+          {error && <p className='text text_type_main-medium'>Произошла ошибка...</p>}
 
           {sortedIngredientsByType
             && sortedIngredientsByType.length > 0
@@ -79,8 +87,6 @@ export default function BurgerIngredients({ ingredientsData, isLoading, hasError
                 key={ingredients[0].type}
                 title={getIngredientTypeTitle(ingredients[0].type)}
                 ingredients={ingredients}
-                setIsIngredientModalOpen={setIsIngredientModalOpen}
-                setSelectedIngredient={setSelectedIngredient}
               />
             ))}
         </div>
@@ -91,7 +97,7 @@ export default function BurgerIngredients({ ingredientsData, isLoading, hasError
           header={'Детали ингредиента'}
           onClose={handleCloseModal}
         >
-          <IngredientDetails selectedIngredient={selectedIngredient} />
+          <IngredientDetails />
         </Modal>)
       }
     </>
@@ -99,7 +105,7 @@ export default function BurgerIngredients({ ingredientsData, isLoading, hasError
 }
 
 BurgerIngredients.propTypes = {
-  ingredientsData: PropTypes.arrayOf(ingredientPropType).isRequired,
-  isLoading: PropTypes.bool,
-  hasError: PropTypes.bool,
+  // ingredientsData: PropTypes.arrayOf(ingredientPropType).isRequired,
+  // isLoading: PropTypes.bool.isRequired,
+  // error: PropTypes.bool.isRequired,
 };

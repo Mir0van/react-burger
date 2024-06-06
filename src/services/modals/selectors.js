@@ -1,0 +1,1 @@
+// export const getAllModals = store => store.modals

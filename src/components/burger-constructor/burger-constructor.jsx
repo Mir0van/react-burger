@@ -1,13 +1,18 @@
 import styles from './burger-constructor.module.css';
 import PropTypes from 'prop-types';
 import { ConstructorElement, CurrencyIcon, DragIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components'
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
 import { ingredientPropType } from '../../utils/prop-types';
+import { useDispatch, useSelector } from 'react-redux';
+import { ORDER_MODAL_OPEN, ORDER_MODAL_CLOSE } from '../../services/modals/actions';
+import { setModalVisibility } from '../../services/modals/actions';
 
-export default function BurgerConstructor({ ingredientsData }) {
-  const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
+export default function BurgerConstructor() {
+  const isOrderModalOpen = useSelector(store => store.modals.isOrderModalOpen)
+  const ingredientsData = useSelector(store => store.ingredients.ingredientsData)
+  const dispatch = useDispatch();
 
   const { bun, ingredients } = useMemo(() => {
     console.log('перерасчет bun и ingredients в BurgerConstructor')
@@ -17,8 +22,8 @@ export default function BurgerConstructor({ ingredientsData }) {
     };
   }, [ingredientsData]);
 
-  const handleOpenModal = () => setIsOrderModalOpen(true);
-  const handleCloseModal = () => setIsOrderModalOpen(false);
+  const handleOpenModal = () => dispatch(setModalVisibility(ORDER_MODAL_OPEN, true));
+  const handleCloseModal = () => dispatch(setModalVisibility(ORDER_MODAL_CLOSE, false));
 
   return ingredientsData && Boolean(ingredientsData.length) && (
     <section className={styles.section}>
@@ -74,5 +79,5 @@ export default function BurgerConstructor({ ingredientsData }) {
 }
 
 BurgerConstructor.propTypes = {
-  ingredientsData: PropTypes.arrayOf(ingredientPropType).isRequired,
+  // ingredientsData: PropTypes.arrayOf(ingredientPropType).isRequired,
 };
