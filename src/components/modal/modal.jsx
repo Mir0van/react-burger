@@ -14,7 +14,7 @@ export default function Modal({ header, children, onClose }) {
       if (evt.key === 'Escape') {
         onClose();
       }
-    }
+    } 
 
     window.addEventListener('keydown', handleKeyDown);
 

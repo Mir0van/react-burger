@@ -1,19 +1,18 @@
-import React, { useMemo, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import React, { useMemo } from 'react';
+// import { ingredientPropType } from '../../utils/prop-types';
+// import PropTypes from 'prop-types';
 import styles from './burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import IngredientList from '../ingredient-list/ingredient-list';
 import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
-import { ingredientPropType } from '../../utils/prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { INGREDIENT_MODAL_CLOSE, setModalVisibility } from '../../services/modals/actions';
-import { SET_CURRENT_TAB } from '../../services/tabs/actions';
-import { getIngredients } from '../../services/ingredients/actions';
+import { closeIngredientModal } from '../../services/modals/reducer';
+import { setCurrentTab } from '../../services/tabs/reducer';
 
 export default function BurgerIngredients() {
-  const currentTab = useSelector(store => store.tabs.currentTab)
-  const isIngredientModalOpen = useSelector(store => store.modals.isIngredientModalOpen)
+  const {currentTab} = useSelector(store => store.tabs)
+  const {isIngredientModalOpen} = useSelector(store => store.modals)
   const {ingredientsData, isLoading, error} = useSelector(store => store.ingredients)
   const dispatch = useDispatch();
 
@@ -52,12 +51,9 @@ export default function BurgerIngredients() {
     }
   };
 
-  const handleCloseModal = () => dispatch(setModalVisibility(INGREDIENT_MODAL_CLOSE, false));
+  const handleCloseModal = () => dispatch(closeIngredientModal());
   const handleTabClick = (value) => {
-    dispatch({
-      type: SET_CURRENT_TAB,
-      payload: value
-    });
+    dispatch(setCurrentTab(value));
   };
 
   return (

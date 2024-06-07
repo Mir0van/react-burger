@@ -4,19 +4,15 @@ import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-c
 // import PropTypes from 'prop-types';
 import { ingredientPropType } from '../../utils/prop-types';
 import { useDispatch } from 'react-redux';
-import { INGREDIENT_MODAL_OPEN, setModalVisibility } from '../../services/modals/actions';
-import { ADD_SELECTED_INGREDIENT } from '../../services/ingredients/actions';
+import { addSelectedIngredient } from '../../services/ingredients/reducer';
+import { openIngredientModal } from '../../services/modals/reducer';
 
 export default function BurgerIngredient({ ingredient }) {
   const dispatch = useDispatch();
 
   const handleOpenModal = () => {
-    dispatch(setModalVisibility(INGREDIENT_MODAL_OPEN, true))
-    
-    dispatch({
-      type: ADD_SELECTED_INGREDIENT,
-      payload: ingredient
-    })
+    dispatch(openIngredientModal())  
+    dispatch(addSelectedIngredient(ingredient));
   }
 
   return (

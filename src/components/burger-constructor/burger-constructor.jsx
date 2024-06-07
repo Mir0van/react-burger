@@ -1,13 +1,12 @@
 import styles from './burger-constructor.module.css';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
+// import { ingredientPropType } from '../../utils/prop-types';
 import { ConstructorElement, CurrencyIcon, DragIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components'
 import { useMemo } from 'react';
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
-import { ingredientPropType } from '../../utils/prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { ORDER_MODAL_OPEN, ORDER_MODAL_CLOSE } from '../../services/modals/actions';
-import { setModalVisibility } from '../../services/modals/actions';
+import { closeOrderModal, openOrderModal } from '../../services/modals/reducer';
 
 export default function BurgerConstructor() {
   const isOrderModalOpen = useSelector(store => store.modals.isOrderModalOpen)
@@ -22,8 +21,8 @@ export default function BurgerConstructor() {
     };
   }, [ingredientsData]);
 
-  const handleOpenModal = () => dispatch(setModalVisibility(ORDER_MODAL_OPEN, true));
-  const handleCloseModal = () => dispatch(setModalVisibility(ORDER_MODAL_CLOSE, false));
+  const handleOpenModal = () => dispatch(openOrderModal());
+  const handleCloseModal = () => dispatch(closeOrderModal());
 
   return ingredientsData && Boolean(ingredientsData.length) && (
     <section className={styles.section}>
