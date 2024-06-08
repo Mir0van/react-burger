@@ -7,6 +7,7 @@ import IngredientDetails from '../ingredient-details/ingredient-details';
 import { useDispatch, useSelector } from 'react-redux';
 import { closeIngredientModal } from '../../services/modals/reducer';
 import { setCurrentTab } from '../../services/tabs/reducer';
+import { deleteSelectedIngredient } from '../../services/ingredients/reducer';
 
 export default function BurgerIngredients() {
   const {currentTab} = useSelector(store => store.tabs)
@@ -35,7 +36,7 @@ export default function BurgerIngredients() {
   );
 
   const countersValue = useMemo(() => {
-    console.log('посчитал каунтер')
+    // console.log('посчитал каунтер')
   
     const countObject = ingredients.reduce((acc, item) => {
       if (!item) return acc; 
@@ -61,10 +62,10 @@ export default function BurgerIngredients() {
     return countObject;
   }, [ingredients, bun]);
 
-  console.log(countersValue)
-
-
-  const handleCloseModal = () => dispatch(closeIngredientModal());
+  const handleCloseModal = () => {
+    dispatch(closeIngredientModal())
+    dispatch(deleteSelectedIngredient())
+  };
 
   const handleTabClick = (value) => {
     dispatch(setCurrentTab(value));

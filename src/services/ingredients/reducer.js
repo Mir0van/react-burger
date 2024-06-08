@@ -1,9 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
-  // ADD_SELECTED_INGREDIENT,
-  // INGREDIENTS_LOAD_SUCCESS,
-  // INGREDIENTS_ERROR,
-  // INGREDIENTS_LOADING,
   getIngredients,
 } from "./actions"
 
@@ -12,36 +8,8 @@ const initialState = {
   error: null,
   isLoading: false,
   selectedIngredient: null,
+  dragIngredientType: null,
 }
-
-// export const reducer = (state = initialState, action) => {
-//   switch (action.type) {
-//     case INGREDIENTS_LOAD_SUCCESS:
-//       return {
-//         ...state,
-//         ingredientsData: action.payload,
-//         isLoading: false, 
-//       };
-//     case INGREDIENTS_LOADING:
-//       return {
-//         ...state,
-//         isLoading: true,
-//       };
-//     case INGREDIENTS_ERROR:
-//       return {
-//         ...state,
-//         error: action.payload,
-//         isLoading: false,
-//       };
-//     case ADD_SELECTED_INGREDIENT:
-//       return {
-//         ...state,
-//         selectedIngredient: action.payload,
-//       };
-//     default:
-//       return state;
-//   }
-// };
 
 export const ingredientsSlice = createSlice({
   name: 'ingredients',
@@ -49,7 +17,16 @@ export const ingredientsSlice = createSlice({
   reducers: {
     addSelectedIngredient: (state, action) => {
       state.selectedIngredient = action.payload;
-    }
+    },
+    deleteSelectedIngredient: (state) => {
+      state.selectedIngredient = null;
+    },
+    addDragIngredient: (state, action) => {
+      state.dragIngredientType = action.payload;
+    },
+    deleteDragIngredient: (state) => {
+      state.dragIngredientType = null;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -68,5 +45,4 @@ export const ingredientsSlice = createSlice({
   }
 })
 
-export const { addSelectedIngredient } = ingredientsSlice.actions;
-// export const reducer = ingredientsSlice.reducer;
+export const { addSelectedIngredient, deleteSelectedIngredient, addDragIngredient, deleteDragIngredient } = ingredientsSlice.actions;

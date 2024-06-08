@@ -5,8 +5,8 @@ import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
 import { getIngredients } from '../../services/ingredients/actions';
 import { useDispatch } from 'react-redux';
-// import { nanoid } from '@reduxjs/toolkit';
-// import { v4 as uuidv4 } from 'uuid';
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 function App() {
   const dispatch = useDispatch();
@@ -15,17 +15,16 @@ function App() {
     dispatch(getIngredients())
   }, [dispatch])
 
-  // console.log(uuidv4())
-  // console.log(nanoid(), 'nanoid()')
-
   return (
     <div className={styles.wrapper}>
       <AppHeader/>
       <main className={styles.main}>
         <div className={styles.container}>
           <div className={`${styles.section_wrapper} pt-10 pb-10`}>
-            <BurgerIngredients />
-            <BurgerConstructor />
+            <DndProvider backend={HTML5Backend}>
+              <BurgerIngredients />
+              <BurgerConstructor />
+            </DndProvider>
           </div>
         </div>
       </main>

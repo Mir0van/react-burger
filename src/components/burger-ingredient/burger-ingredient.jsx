@@ -1,40 +1,44 @@
+import React from 'react'
 import PropTypes from 'prop-types';
 import styles from './burger-ingredients.module.css'
-import React from 'react'
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { ingredientPropType } from '../../utils/prop-types';
 import { useDispatch } from 'react-redux';
-import { addSelectedIngredient } from '../../services/ingredients/reducer';
+import { addDragIngredient, addSelectedIngredient, deleteDragIngredient } from '../../services/ingredients/reducer';
 import { openIngredientModal } from '../../services/modals/reducer';
-import { nanoid } from '@reduxjs/toolkit';
-
-// тест удалить
-import { addBunToConstructor, addIngredientsToConstructor } from '../../services/constructor/reducer';
-// ------------
+import { useDrag } from "react-dnd";
 
 export default function BurgerIngredient({ ingredient, count }) {
   const dispatch = useDispatch();
 
+  const [{isDrag}, dragRef] = useDrag({
+    type: ingredient.type,
+    item: () => {
+      console.log('Начали перетаскивать элемент:', ingredient.type);
+      dispatch(addDragIngredient(ingredient.type))
+      return {ingredient}
+    },
+    end: (item) => {
+      console.log('Элемент сброшен:', item.ingredient.type);
+      dispatch(deleteDragIngredient())
+    },
+    collect: (monitor) => ({
+        isDrag: monitor.isDragging()
+    })
+  });
+
+  // console.log(isDrag, 'isDrag')
+
   const handleOpenModal = () => {
     dispatch(openIngredientModal())  
     dispatch(addSelectedIngredient(ingredient));
-
-    // тест для dnd. удалить------
-    if (ingredient.type === 'bun') {
-      dispatch(addBunToConstructor(ingredient))
-    } else {
-      dispatch(addIngredientsToConstructor({
-        ...ingredient,
-        key: nanoid()
-      }))
-    }
-    // -----------------
   }
 
   return (
     <li
       className={styles.item}
       onClick={handleOpenModal}
+      ref={dragRef}
     >
       <div className={styles.card}>
         <div className={`${styles.image} mb-2`}>
@@ -53,5 +57,5 @@ export default function BurgerIngredient({ ingredient, count }) {
 
 BurgerIngredient.propTypes = {
   ingredient: ingredientPropType,
-  count: PropTypes.oneOfType([PropTypes.number, PropTypes.oneOf([null])]).isRequired,
+  count: PropTypes.number.isRequired,
 };
