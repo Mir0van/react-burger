@@ -1,18 +1,34 @@
+import PropTypes from 'prop-types';
 import styles from './burger-ingredients.module.css'
 import React from 'react'
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-// import PropTypes from 'prop-types';
 import { ingredientPropType } from '../../utils/prop-types';
 import { useDispatch } from 'react-redux';
 import { addSelectedIngredient } from '../../services/ingredients/reducer';
 import { openIngredientModal } from '../../services/modals/reducer';
+import { nanoid } from '@reduxjs/toolkit';
 
-export default function BurgerIngredient({ ingredient }) {
+// тест удалить
+import { addBunToConstructor, addIngredientsToConstructor } from '../../services/constructor/reducer';
+// ------------
+
+export default function BurgerIngredient({ ingredient, count }) {
   const dispatch = useDispatch();
 
   const handleOpenModal = () => {
     dispatch(openIngredientModal())  
     dispatch(addSelectedIngredient(ingredient));
+
+    // тест для dnd. удалить------
+    if (ingredient.type === 'bun') {
+      dispatch(addBunToConstructor(ingredient))
+    } else {
+      dispatch(addIngredientsToConstructor({
+        ...ingredient,
+        key: nanoid()
+      }))
+    }
+    // -----------------
   }
 
   return (
@@ -29,8 +45,7 @@ export default function BurgerIngredient({ ingredient }) {
           <CurrencyIcon />
         </div>
         <p className={`${styles.name} text text_type_main-default mb-6`}>{ingredient.name}</p>
-        {/* временно захардорженый Counter */}
-        <Counter count={1} size="default" />
+        {Boolean(count > 0) && <Counter count={count} size="default" />}
       </div>
     </li>
   )
@@ -38,6 +53,5 @@ export default function BurgerIngredient({ ingredient }) {
 
 BurgerIngredient.propTypes = {
   ingredient: ingredientPropType,
-  // setIsIngredientModalOpen: PropTypes.func.isRequired,
-  // setSelectedIngredient: PropTypes.func.isRequired,
+  count: PropTypes.oneOfType([PropTypes.number, PropTypes.oneOf([null])]).isRequired,
 };
