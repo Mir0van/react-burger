@@ -104,7 +104,7 @@ const BurgerConstructorElement = ({ dragIcon, type, ingredient, handleClose, ind
 
   return (
     <ConstructorElement
-      text={ingredient.name}
+      text={`${ingredient.name} ${type === 'top' ? '(верх)' : '(низ)'}`}
       price={ingredient.price}
       thumbnail={ingredient.image_mobile}
       isLocked={ingredient.type === 'bun'}
