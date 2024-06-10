@@ -1,9 +1,12 @@
 import React from 'react'
 import styles from './ingredient-details.module.css'
-import PropTypes from 'prop-types';
-import { ingredientPropType } from '../../utils/prop-types';
+// import PropTypes from 'prop-types';
+// import { ingredientPropType } from '../../utils/prop-types';
+import { useSelector } from 'react-redux';
 
-export default function IngredientDetails({selectedIngredient}) {
+export default function IngredientDetails() {
+  const selectedIngredient = useSelector(store => store.ingredients.selectedIngredient)
+
   return (
     <div className={styles.container}>
       <div className={`${styles.image} mb-3`}>
@@ -33,5 +36,5 @@ export default function IngredientDetails({selectedIngredient}) {
 }
 
 IngredientDetails.propTypes = {
-  selectedIngredient: ingredientPropType,
+  // selectedIngredient: ingredientPropType,
 };

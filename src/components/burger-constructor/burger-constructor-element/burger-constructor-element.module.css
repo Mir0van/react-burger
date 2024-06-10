@@ -1,0 +1,34 @@
+.empty {
+  background: var(--background-element);
+  border-radius: var(--common-border-radius-s);
+  width: 100%;
+  max-width: 536px;
+  height: 80px;
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.empty_top {
+  border-radius: var(--top-constructor-item-border-radius);
+}
+
+.empty_bottom {
+  border-radius: var(--bottom-constructor-item-border-radius);
+}
+
+.empty_center {
+  width: calc(100% - 32px);
+  margin-left: 32px;
+}
+
+.empty_hover {
+  border: 2px dashed #59ceeb;
+}
+
+.element_container {
+  display: flex;
+  align-items: center;
+  column-gap: 8px;
+}
