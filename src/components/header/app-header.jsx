@@ -1,5 +1,6 @@
 import { Logo, BurgerIcon, ListIcon, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './app-header.module.css';
+import { NavLink } from 'react-router-dom';
 
 export default function AppHeader() {
   return (
@@ -8,25 +9,25 @@ export default function AppHeader() {
         <nav className={styles.nav}>
           <ul className={styles.list}>
             <li>
-              <a className={`${styles.link} p-5`} href='/'>
+              <NavLink className={`${styles.link} p-5`} to='/'>
                 <BurgerIcon type="primary" />
                 <p className="text text_type_main-default">Конструктор</p>
-              </a>
+              </NavLink>
             </li>
             <li>
-              <a className={`${styles.link} p-5`} href='/'>
+              <NavLink className={`${styles.link} p-5`} to='/'>
                 <ListIcon type="secondary" />
                 <p className="text text_type_main-default text_color_inactive">Лента заказов</p>
-              </a>
+              </NavLink>
             </li>
           </ul>
-          <a className={styles['logo-link']} href="/">
+          <NavLink className={styles['logo-link']} to="/">
             <Logo />
-          </a>
-          <a className={`${styles.link} p-5`} href='/'>
+          </NavLink>
+          <NavLink className={`${styles.link} p-5`} to='/'>
             <ProfileIcon type="secondary" />
             <p className="text text_type_main-default text_color_inactive">Личный кабинет</p>
-          </a>
+          </NavLink>
         </nav>
       </div>
     </header>

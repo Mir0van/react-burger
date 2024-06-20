@@ -15,18 +15,18 @@ export const modalsSlice = createSlice({
     closeOrderModal: (state) => {
       state.isOrderModalOpen = false;
     },
-    openIngredientModal: (state) => {
-      state.isIngredientModalOpen = true;
-    },
-    closeIngredientModal: (state) => {
-      state.isIngredientModalOpen = false;
-    },
+    // openIngredientModal: (state) => {
+    //   state.isIngredientModalOpen = true;
+    // },
+    // closeIngredientModal: (state) => {
+    //   state.isIngredientModalOpen = false;
+    // },
   },
 });
 
 export const {
   openOrderModal,
   closeOrderModal,
-  openIngredientModal,
-  closeIngredientModal,
+  // openIngredientModal,
+  // closeIngredientModal,
 } = modalsSlice.actions;

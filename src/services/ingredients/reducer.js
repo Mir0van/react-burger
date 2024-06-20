@@ -45,4 +45,9 @@ export const ingredientsSlice = createSlice({
   }
 })
 
-export const { addSelectedIngredient, deleteSelectedIngredient, addDragIngredient, deleteDragIngredient } = ingredientsSlice.actions;
+export const { 
+  addSelectedIngredient, 
+  deleteSelectedIngredient, 
+  addDragIngredient, 
+  deleteDragIngredient 
+} = ingredientsSlice.actions;

@@ -2,16 +2,11 @@ import React, { useMemo, useRef } from 'react';
 import styles from './burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import IngredientList from '../ingredient-list/ingredient-list';
-import Modal from '../modal/modal';
-import IngredientDetails from '../ingredient-details/ingredient-details';
 import { useDispatch, useSelector } from 'react-redux';
-import { closeIngredientModal } from '../../services/modals/reducer';
 import { setCurrentTab } from '../../services/tabs/reducer';
-import { deleteSelectedIngredient } from '../../services/ingredients/reducer';
 
 export default function BurgerIngredients() {
   const {currentTab} = useSelector(store => store.tabs)
-  const {isIngredientModalOpen} = useSelector(store => store.modals)
   const {ingredientsData, isLoading, error} = useSelector(store => store.ingredients)
   const {bun, ingredients} = useSelector(store => store.burgerConstructor)
   const dispatch = useDispatch();
@@ -61,11 +56,6 @@ export default function BurgerIngredients() {
   
     return countObject;
   }, [ingredients, bun]);
-
-  const handleCloseModal = () => {
-    dispatch(closeIngredientModal())
-    dispatch(deleteSelectedIngredient())
-  };
 
   const handleTabClick = (value) => {
     dispatch(setCurrentTab(value));
@@ -161,15 +151,6 @@ export default function BurgerIngredients() {
           />
         </div>
       </section>
-
-      {isIngredientModalOpen && (
-        <Modal
-          header={'Детали ингредиента'}
-          onClose={handleCloseModal}
-        >
-          <IngredientDetails />
-        </Modal>)
-      }
     </>
   )
 }

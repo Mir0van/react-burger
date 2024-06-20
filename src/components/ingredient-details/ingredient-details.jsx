@@ -1,11 +1,26 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import styles from './ingredient-details.module.css'
-// import PropTypes from 'prop-types';
-// import { ingredientPropType } from '../../utils/prop-types';
+import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+// import { useDispatch } from 'react-redux';
+// import { addSelectedIngredient } from '../../services/ingredients/reducer';
 
 export default function IngredientDetails() {
-  const selectedIngredient = useSelector(store => store.ingredients.selectedIngredient)
+  const ingredients = useSelector((store) => store.ingredients.ingredientsData);
+  const {ingredientId} = useParams();
+  // const dispatch = useDispatch();
+
+  const selectedIngredient = useMemo(
+    () => (ingredients.find((ingredient) => ingredient._id === ingredientId)),
+    [ingredients, ingredientId]
+  );
+
+  if (!selectedIngredient) {
+    return null;
+  }
+
+  // временно оставил. пока не знаю нужена эта инфа будет или нет, удалю после ревью
+  // dispatch(addSelectedIngredient(selectedIngredient));
 
   return (
     <div className={styles.container}>
@@ -35,6 +50,3 @@ export default function IngredientDetails() {
   )
 }
 
-IngredientDetails.propTypes = {
-  // selectedIngredient: ingredientPropType,
-};

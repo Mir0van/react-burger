@@ -1,21 +1,3 @@
-/* .wrapper {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-
-  max-height: 100%;
-  height: 100%;
-}
-
-.wrapper header,
-.wrapper footer {
-  flex-shrink: 0;
-}
-
-.wrapper main {
-  flex-grow: 1;
-} */
-
 .main {
   min-height: 0;
   display: flex;
