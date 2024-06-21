@@ -42,6 +42,20 @@
   column-gap: 8px;
   border-radius: 40px;
   text-decoration: none;
+  transition: box-shadow 0.15s ease;
+}
+
+@media (hover: hover) {
+  .link:hover {
+    box-shadow: 0 0 10px 5px #3a889c;
+  }
+}
+
+.link > svg {
+  transition: all 0.15s ease;
+}
+.link > p {
+  transition: all 0.15s ease;
 }
 
 .logo-link {

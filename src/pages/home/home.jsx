@@ -7,15 +7,13 @@ import BurgerConstructor from '../../components/burger-constructor/burger-constr
 
 export default function Home() {
   return (
-    <main className={styles.main}>
-      <div className={styles.container}>
-        <div className={`${styles.section_wrapper} pt-10 pb-10`}>
-          <DndProvider backend={HTML5Backend}>
-            <BurgerIngredients />
-            <BurgerConstructor />
-          </DndProvider>
-        </div>
+    <div className={styles.container}>
+      <div className={`${styles.section_wrapper} pt-10 pb-10`}>
+        <DndProvider backend={HTML5Backend}>
+          <BurgerIngredients />
+          <BurgerConstructor />
+        </DndProvider>
       </div>
-    </main>
+    </div>
   )
 }

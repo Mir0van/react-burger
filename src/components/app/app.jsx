@@ -6,6 +6,13 @@ import Layout from '../layout/layout';
 import Home from '../../pages/home/home';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import Modal from '../modal/modal';
+import Login from '../../pages/login/login';
+import NotFoundPage from '../../pages/404/404';
+import Register from '../../pages/register/register';
+import ForgotPassword from '../../pages/forgot-password/forgot-password';
+import ResetPassword from '../../pages/reset-password/reset-password';
+import Feed from '../../pages/feed/feed';
+import Profile from '../../pages/profile/profile';
 
 function App() {
   const dispatch = useDispatch();
@@ -28,7 +35,14 @@ function App() {
       <Routes location={background || location}>
         <Route path='/' element={<Layout />} >
           <Route index element={<Home />} />
-          <Route path='/ingredients/:ingredientId' element={<IngredientDetails />} />
+          <Route path='ingredients/:ingredientId' element={<IngredientDetails />} />
+          <Route path='/login' element={<Login/>}/>
+          <Route path='/register' element={<Register/>}/>
+          <Route path='/forgot-password' element={<ForgotPassword/>}/>
+          <Route path='/reset-password' element={<ResetPassword/>}/>
+          <Route path='/feed' element={<Feed/>}/>
+          <Route path='/profile' element={<Profile/>}/>
+          <Route path='*' element={<NotFoundPage/>}/>
         </Route>
       </Routes>
 
