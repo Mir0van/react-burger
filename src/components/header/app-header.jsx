@@ -1,8 +1,11 @@
 import { Logo, BurgerIcon, ListIcon, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './app-header.module.css';
 import { NavLink, useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function AppHeader() {
+  const user = useSelector(store => store.user.user)
+
   const location = useLocation();
   const LogoWrapper = location.pathname === '/' ? 'div' : NavLink;
 
@@ -39,7 +42,9 @@ export default function AppHeader() {
             {({ isActive }) => (
               <>
                 <ProfileIcon type={isActive ? "primary" : "secondary"} />
-                <p className={`text text_type_main-default ${!isActive && 'text_color_inactive'}`}>Личный кабинет</p>
+                <p className={`text text_type_main-default ${!isActive && 'text_color_inactive'}`}>
+                  {user?.name || 'Личный кабинет'}
+                </p>
               </>
             )}
           </NavLink>

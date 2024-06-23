@@ -1,22 +1,40 @@
-import React, { useCallback, useState } from 'react';
-import { EmailInput, PasswordInput, Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Link } from 'react-router-dom';
+import React, { useCallback, useEffect } from 'react';
+import { PasswordInput, Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
+import { Link, useNavigate } from 'react-router-dom';
 import styles from './reset-password.module.css'
 import { useForm } from '../../hooks/useForm';
+import { resetPassword } from '../../utils/burger-api';
 
 export default function ResetPassword() {
   const [form, handleChangeInput] = useForm({
-    email: '',
-    code: '',
+    password: '',
+    token: '',
   })
 
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const isResetPasswordSend = localStorage.getItem("resetPassword");
+
+    if (!isResetPasswordSend) {
+      navigate('/forgot-password', { replace: true });
+    }
+  }, [navigate]);
+
   const handleSubmitForm = useCallback(
-    (event) => {
+    async (event) => {
       event.preventDefault();
-      // тут будет логика отправки данных пользователя
       console.log(form, 'form reset-password');
+
+      try {
+        const response = await resetPassword(form);
+        navigate('/login', { replace: true });
+        console.log('Ответ при успешной смене пароля:', response);
+      } catch (error) {
+        console.error('Ответ ошибки при смене пароля:', error);
+      }
     },
-    [form]
+    [form, navigate]
   );
 
   return (
@@ -24,22 +42,22 @@ export default function ResetPassword() {
       <div className={styles.container}>
         <div className={styles.wrapper}>
           <h1 className="text text_type_main-medium mb-6">Восстановление пароля</h1>
-          <form action="#" className={`${styles.form} mb-20`}>
+          <form action="#" className={`${styles.form} mb-20`} onSubmit={handleSubmitForm}>
             <PasswordInput
               onChange={handleChangeInput}
-              value={form.email}
+              value={form.password}
               name={'password'}
               placeholder="Введите новый пароль"
               extraClass="mb-6"
               />
             <Input
               onChange={handleChangeInput}
-              value={form.code}
-              name={'code'}
+              value={form.token}
+              name={'token'}
               placeholder="Введите код из письма"
               extraClass="mb-6"
             />
-            <Button htmlType="submit" type="primary" size="medium" onClick={handleSubmitForm}>
+            <Button htmlType="submit" type="primary" size="medium">
               Сохранить
             </Button>
           </form>

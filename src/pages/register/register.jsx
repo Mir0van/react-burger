@@ -3,8 +3,12 @@ import { EmailInput, PasswordInput, Input, Button } from '@ya.praktikum/react-de
 import { Link } from 'react-router-dom';
 import styles from './register.module.css'
 import { useForm } from '../../hooks/useForm';
+import { useDispatch } from 'react-redux';
+import { register } from '../../services/user/actions';
 
 export default function Register() {
+  const dispatch = useDispatch();
+
   const [form, handleChangeInput] = useForm({
     name: '',
     email: '',
@@ -15,9 +19,10 @@ export default function Register() {
     (event) => {
       event.preventDefault();
       // тут будет логика отправки данных пользователя
+      dispatch(register(form))
       console.log(form, 'form register');
     },
-    [form]
+    [dispatch, form]
   );
 
   return (
@@ -25,7 +30,7 @@ export default function Register() {
       <div className={styles.container}>
         <div className={styles.wrapper}>
           <h1 className="text text_type_main-medium mb-6">Регистрация</h1>
-          <form action="#" className={`${styles.form} mb-20`}>
+          <form action="#" className={`${styles.form} mb-20`} onSubmit={handleSubmitForm}>
             <Input
               onChange={handleChangeInput}
               value={form.name}
@@ -48,7 +53,7 @@ export default function Register() {
               placeholder="Пароль"
               extraClass="mb-6"
             />
-            <Button htmlType="submit" type="primary" size="medium" onClick={handleSubmitForm}>
+            <Button htmlType="submit" type="primary" size="medium">
               Зарегистрироваться
             </Button>
           </form>

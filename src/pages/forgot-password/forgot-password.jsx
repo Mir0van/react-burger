@@ -1,21 +1,31 @@
-import React, { useCallback, useState } from 'react';
-import { EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Link } from 'react-router-dom';
+import React, { useCallback } from 'react';
+import { EmailInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
+import { Link, useNavigate } from 'react-router-dom';
 import styles from './forgot-password.module.css'
 import { useForm } from '../../hooks/useForm';
+import { forgotPassword } from '../../utils/burger-api';
 
 export default function ForgotPassword() {
   const [form, handleChangeInput] = useForm({
     email: '',
   })
 
+  const navigate = useNavigate();
+
   const handleSubmitForm = useCallback(
-    (event) => {
+    async (event) => {
       event.preventDefault();
-      // тут будет логика отправки данных пользователя
       console.log(form, 'form forgot-password');
+
+      try {
+        const response = await forgotPassword(form);
+        navigate('/reset-password')
+        console.log('Ответ при успешном сбросе пароля:', response);
+      } catch (error) {
+        console.error('Ответ ошибки сброса пароля:', error);
+      }
     },
-    [form]
+    [form, navigate]
   );
 
   return (
@@ -23,15 +33,15 @@ export default function ForgotPassword() {
       <div className={styles.container}>
         <div className={styles.wrapper}>
           <h1 className="text text_type_main-medium mb-6">Восстановление пароля</h1>
-          <form action="#" className={`${styles.form} mb-20`}>
+          <form className={`${styles.form} mb-20`} onSubmit={handleSubmitForm}>
             <EmailInput
               onChange={handleChangeInput}
               value={form.email}
               name={'email'}
               placeholder="Укажите e-mail"
               extraClass="mb-6"
-              />
-            <Button htmlType="submit" type="primary" size="medium" onClick={handleSubmitForm}>
+            />
+            <Button htmlType="submit" type="primary" size="medium">
               Восстановить
             </Button>
           </form>

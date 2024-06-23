@@ -3,8 +3,12 @@ import { EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer
 import { Link } from 'react-router-dom';
 import { useForm } from '../../hooks/useForm';
 import styles from './login.module.css'
+import { useDispatch } from 'react-redux';
+import { login } from '../../services/user/actions';
 
 export default function Login() {
+  const dispatch = useDispatch();
+
   const [form, handleChangeInput] = useForm({
     email: '',
     password: '',
@@ -14,9 +18,10 @@ export default function Login() {
     (event) => {
       event.preventDefault();
       // тут будет логика отправки данных пользователя
+      dispatch(login(form))
       console.log(form, 'form login');
     },
-    [form]
+    [dispatch, form]
   );
 
   return (
@@ -24,7 +29,7 @@ export default function Login() {
       <div className={styles.container}>
         <div className={styles.wrapper}>
           <h1 className="text text_type_main-medium mb-6">Вход</h1>
-          <form action="#" className={`${styles.form} mb-20`}>
+          <form action="#" className={`${styles.form} mb-20`} onSubmit={handleSubmitForm}>
             <EmailInput
               onChange={handleChangeInput}
               value={form.email}
@@ -39,7 +44,7 @@ export default function Login() {
               placeholder="Пароль"
               extraClass="mb-6"
             />
-            <Button htmlType="submit" type="primary" size="medium" onClick={handleSubmitForm}>
+            <Button htmlType="submit" type="primary" size="medium">
               Войти
             </Button>
           </form>
