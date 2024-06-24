@@ -18,10 +18,10 @@ import ProfileInputs from '../profile-inputs/profile-inputs';
 import FeedHistory from '../feed-history/feed-history';
 import Loader from '../loader/loader';
 import styles from './app.module.css'
+import { OnlyAuth, OnlyUnAuth } from '../protected-route/protected-route';
 
 function App() {
   const dispatch = useDispatch();
-  const { isAuthChecked } = useSelector((store) => store.user)
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -43,12 +43,12 @@ function App() {
         <Route path='/' element={<Layout />} >
           <Route index element={<Home />} />
           <Route path='ingredients/:ingredientId' element={<IngredientDetails />} />
-          <Route path='/login' element={<Login />} />
-          <Route path='/register' element={<Register />} />
-          <Route path='/forgot-password' element={<ForgotPassword />} />
-          <Route path='/reset-password' element={<ResetPassword />} />
+          <Route path="/login" element={<OnlyUnAuth component={<Login />} />} />
+          <Route path='/register' element={<OnlyUnAuth component={<Register />} />} />
+          <Route path='/forgot-password' element={<OnlyUnAuth component={<ForgotPassword />}/>} />
+          <Route path='/reset-password' element={<OnlyUnAuth component={<ResetPassword/>}/>} />
           <Route path='/feed' element={<Feed />} />
-          <Route path='/profile' element={<Profile />}>
+          <Route path='/profile' element={<OnlyAuth component={<Profile/>}/>}>
             <Route index element={<ProfileInputs />} />
             <Route path='orders' element={<FeedHistory />} />
           </Route>
@@ -68,13 +68,6 @@ function App() {
             }
           />
         </Routes>
-      )}
-
-      {/* лоадер пока чекает права юзера сайта */}
-      {!isAuthChecked && (
-        <div className={styles.loader}>
-          <Loader />
-        </div>
       )}
     </>
   );

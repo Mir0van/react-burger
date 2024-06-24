@@ -4,16 +4,29 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import BurgerIngredients from '../../components/burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../../components/burger-constructor/burger-constructor';
+import { useSelector } from 'react-redux';
+import Loader from '../../components/loader/loader';
 
 export default function Home() {
+  const { ingredientsData } = useSelector((store) => store.ingredients)
+  
   return (
-    <div className={styles.container}>
-      <div className={`${styles.section_wrapper} pt-10 pb-10`}>
-        <DndProvider backend={HTML5Backend}>
-          <BurgerIngredients />
-          <BurgerConstructor />
-        </DndProvider>
+    <>
+      <div className={styles.container}>
+        <div className={`${styles.section_wrapper} pt-10 pb-10`}>
+          <DndProvider backend={HTML5Backend}>
+            <BurgerIngredients />
+            <BurgerConstructor />
+          </DndProvider>
+        </div>
       </div>
-    </div>
+
+      {/* лоадер пока чекает загрузку ингридиентов */}
+      {!ingredientsData.length && (
+        <div className={styles.loader}>
+          <Loader />
+        </div>
+      )}
+    </>
   )
 }

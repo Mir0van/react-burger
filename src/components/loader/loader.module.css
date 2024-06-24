@@ -4,7 +4,8 @@
   justify-content: center;
 }
 
-.wrapper svg {
+.wrapper svg,
+.wrapper img {
   width: 50%;
   max-width: 300px;
   height: auto;
