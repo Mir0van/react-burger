@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { getIngredients } from '../../services/ingredients/actions';
 import { getUser } from '../../services/user/actions';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import Layout from '../layout/layout';
 import Home from '../../pages/home/home';
@@ -16,8 +16,6 @@ import Feed from '../../pages/feed/feed';
 import Profile from '../../pages/profile/profile';
 import ProfileInputs from '../profile-inputs/profile-inputs';
 import FeedHistory from '../feed-history/feed-history';
-import Loader from '../loader/loader';
-import styles from './app.module.css'
 import { OnlyAuth, OnlyUnAuth } from '../protected-route/protected-route';
 
 function App() {

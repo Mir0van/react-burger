@@ -1,9 +1,10 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { EmailInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './forgot-password.module.css'
 import { useForm } from '../../hooks/useForm';
 import { forgotPassword } from '../../utils/burger-api';
+import loaderImg from '../../images/svg/bouncing-loader.svg'
 
 export default function ForgotPassword() {
   const [form, handleChangeInput] = useForm({
@@ -11,18 +12,21 @@ export default function ForgotPassword() {
   })
 
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmitForm = useCallback(
     async (event) => {
       event.preventDefault();
+      setIsLoading(true);
       console.log(form, 'form forgot-password');
 
       try {
         const response = await forgotPassword(form);
-        navigate('/reset-password')
-        console.log('Ответ при успешном сбросе пароля:', response);
+        navigate('/reset-password');
       } catch (error) {
-        console.error('Ответ ошибки сброса пароля:', error);
+        
+      } finally {
+        setIsLoading(false);
       }
     },
     [form, navigate]
@@ -41,8 +45,9 @@ export default function ForgotPassword() {
               placeholder="Укажите e-mail"
               extraClass="mb-6"
             />
-            <Button htmlType="submit" type="primary" size="medium">
-              Восстановить
+            <Button htmlType="submit" type="primary" size="medium" style={{ position: 'relative' }}>
+              {isLoading && <img className={styles.loader} src={loaderImg} width={40} height={40} alt="Loading" />}
+              <span className={isLoading ? styles.loading : ''}>Восстановить</span>
             </Button>
           </form>
           <div className={`${styles['link-wrapper']}`}>

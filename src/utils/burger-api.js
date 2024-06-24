@@ -122,13 +122,19 @@ export const logout = () => {
 }
 
 export const forgotPassword = (form) => {
-  localStorage.setItem('resetPassword', true);
   return fetch(PASSWORD_RESET_URL, {
     body: JSON.stringify(form),
     method: 'POST',
     headers: header,
   })
     .then(checkResponse)
+    .then((data) => {
+      if (!data.success) {
+        return Promise.reject(data);
+      }
+      localStorage.setItem('resetPassword', true);
+      return data;
+    });
 };
 
 export const resetPassword = (form) => {
@@ -150,6 +156,19 @@ export const resetPassword = (form) => {
 export const getUser = () => {
   const options = {
     method: 'GET',
+    headers: {
+      ...header,
+      authorization: localStorage.getItem('accessToken')
+    }
+  };
+
+  return fetchWithRefresh(USER_URL, options);
+};
+
+export const updateUserData = (form) => {
+  const options = {
+    body: JSON.stringify(form),
+    method: 'PATCH',
     headers: {
       ...header,
       authorization: localStorage.getItem('accessToken')

@@ -1,0 +1,16 @@
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 4px;
+}
+
+.loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.loading {
+  opacity: 0;
+}

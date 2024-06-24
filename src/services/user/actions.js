@@ -3,7 +3,8 @@ import {
   login as loginApi,
   register as registerApi,
   logout as logoutApi,
-  getUser as getUserApi
+  getUser as getUserApi,
+  updateUserData as updateUserDataApi
 } from "../../utils/burger-api";
 
 export const login = createAsyncThunk(
@@ -31,6 +32,14 @@ export const getUser = createAsyncThunk(
   'user/getUser',
   async () => {
     const response = await getUserApi();
+    return response.user;
+  }
+);
+
+export const updateUserData = createAsyncThunk(
+  'user/updateUserData',
+  async (form) => {
+    const response = await updateUserDataApi(form);
     return response.user;
   }
 );

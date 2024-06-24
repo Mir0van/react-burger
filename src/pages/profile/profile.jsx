@@ -1,15 +1,27 @@
 import React from 'react';
 import styles from './profile.module.css';
-import { NavLink, Outlet } from 'react-router-dom';
+import { NavLink, Outlet, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { logout } from '../../services/user/actions';
 
 export default function Profile() {
   const dispatch = useDispatch();
+  const location = useLocation();
 
   const handleExitClick = () => {
     dispatch(logout());
   }
+
+  const getText = () => {
+    switch (location.pathname) {
+      case '/profile':
+        return 'изменить свои персональные данные';
+      case '/profile/orders':
+        return 'просмотреть историю своих заказов';
+      default:
+        return '';
+    }
+  };
 
   return (
     <section className='pt-30'>
@@ -45,11 +57,11 @@ export default function Profile() {
             </ul>
             <p className={`text text_type_main-default text_color_inactive ${styles.text}`}>
               В этом разделе вы можете <br />
-              изменить свои персональные данные
+              {getText()}
             </p>
           </div>
 
-          <Outlet/>
+          <Outlet />
 
         </div>
       </div>

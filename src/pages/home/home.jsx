@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 import Loader from '../../components/loader/loader';
 
 export default function Home() {
-  const { ingredientsData } = useSelector((store) => store.ingredients)
+  const { isLoading } = useSelector((store) => store.ingredients)
   
   return (
     <>
@@ -22,7 +22,7 @@ export default function Home() {
       </div>
 
       {/* лоадер пока чекает загрузку ингридиентов */}
-      {!ingredientsData.length && (
+      {isLoading && (
         <div className={styles.loader}>
           <Loader />
         </div>

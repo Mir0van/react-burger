@@ -4,6 +4,7 @@ import {
   register,
   logout,
   getUser,
+  updateUserData
 } from "./actions"
 
 const initialState = {
@@ -67,6 +68,18 @@ export const userSlice = createSlice({
         state.isLoading = false;
         state.error = action.error.message;
         state.isAuthChecked = true;
+      })
+      .addCase(updateUserData.fulfilled, (state, action) => {
+        state.user = action.payload;
+        state.isLoading = false;
+      })
+      .addCase(updateUserData.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(updateUserData.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message;
       })
   }
 });
