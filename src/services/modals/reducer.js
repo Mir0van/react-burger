@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   isOrderModalOpen: false,
   isIngredientModalOpen: false,
+  isLoaderModalOpen: false,
 }
 
 export const modalsSlice = createSlice({
@@ -15,18 +16,26 @@ export const modalsSlice = createSlice({
     closeOrderModal: (state) => {
       state.isOrderModalOpen = false;
     },
-    openIngredientModal: (state) => {
-      state.isIngredientModalOpen = true;
+    openLoaderModal: (state) => {
+      state.isLoaderModalOpen = true;
     },
-    closeIngredientModal: (state) => {
-      state.isIngredientModalOpen = false;
+    closeLoaderModal: (state) => {
+      state.isLoaderModalOpen = false;
     },
+    // openIngredientModal: (state) => {
+    //   state.isIngredientModalOpen = true;
+    // },
+    // closeIngredientModal: (state) => {
+    //   state.isIngredientModalOpen = false;
+    // },
   },
 });
 
 export const {
   openOrderModal,
   closeOrderModal,
-  openIngredientModal,
-  closeIngredientModal,
+  openLoaderModal,
+  closeLoaderModal,
+  // openIngredientModal,
+  // closeIngredientModal,
 } = modalsSlice.actions;

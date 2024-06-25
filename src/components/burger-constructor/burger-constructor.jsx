@@ -5,19 +5,23 @@ import OrderDetails from '../order-details/order-details';
 import { CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components'
 import { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { closeOrderModal } from '../../services/modals/reducer';
+import { closeLoaderModal, closeOrderModal } from '../../services/modals/reducer';
 import { addBunToConstructor, addIngredientsToConstructor, clearIngredientsConstructor, deleteIngredientFromConstructor, moveIngredientCard } from '../../services/constructor/reducer';
-import { postOrder } from '../../services/order/actions'; 
+import { postOrder } from '../../services/order/actions';
 import { useDrop } from 'react-dnd';
 import { nanoid } from '@reduxjs/toolkit';
+import { useNavigate } from 'react-router-dom';
+import Loader from '../loader/loader';
 
 export default function BurgerConstructor() {
-  const {isOrderModalOpen} = useSelector(store => store.modals)
-  const {ingredientsData} = useSelector(store => store.ingredients)
-  const {bun, ingredients} = useSelector(store => store.burgerConstructor)
+  const { isOrderModalOpen, isLoaderModalOpen } = useSelector(store => store.modals)
+  const { ingredientsData } = useSelector(store => store.ingredients)
+  const { bun, ingredients } = useSelector(store => store.burgerConstructor)
+  const user = useSelector(store => store.user.user);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const [{isOver}, dropRef] = useDrop({
+  const [{ isOver }, dropRef] = useDrop({
     // isOver пока оставлю, что бы не забыть про него
     accept: ['bun', 'sauce', 'main'],
     collect: (monitor) => ({
@@ -43,6 +47,11 @@ export default function BurgerConstructor() {
   // console.log(bun, 'bun BurgerConstructor')
 
   const handlePostOrder = () => {
+    if (!user) {
+      navigate('/login');
+      return
+    }
+
     const ingredientIds = ingredients.map((item) => item._id);
     if (bun) {
       ingredientIds.push(bun._id);
@@ -53,6 +62,12 @@ export default function BurgerConstructor() {
   };
 
   const handleCloseModal = () => {
+    if (isLoaderModalOpen) {
+      // dispatch(closeLoaderModal());
+      // запрет закрытия модалки с лоадером
+      return
+    }
+
     dispatch(closeOrderModal());
     dispatch(clearIngredientsConstructor())
   };
@@ -93,24 +108,24 @@ export default function BurgerConstructor() {
           ingredient={bun}
         />
         <div className={`${styles.burger_constructor_scroll} custom-scroll`}>
-          {ingredients.length === 0 ? 
+          {ingredients.length === 0 ?
             (<BurgerConstructorElement
               dragIcon={false}
               type='primary'
               ingredient={null}
             />) : (
-            ingredients.map((ingredientItem, index) => (
-              <BurgerConstructorElement
-                key={ingredientItem.key}
-                dragIcon={true}
-                type="primary"
-                ingredient={ingredientItem}
-                handleClose={() => handleDeleteIngredient(ingredientItem.key)}
-                index={index}
-                moveIngredient={moveIngredient}
-              />
-            ))
-          )}
+              ingredients.map((ingredientItem, index) => (
+                <BurgerConstructorElement
+                  key={ingredientItem.key}
+                  dragIcon={true}
+                  type="primary"
+                  ingredient={ingredientItem}
+                  handleClose={() => handleDeleteIngredient(ingredientItem.key)}
+                  index={index}
+                  moveIngredient={moveIngredient}
+                />
+              ))
+            )}
         </div>
         <BurgerConstructorElement
           dragIcon={false}
@@ -126,6 +141,15 @@ export default function BurgerConstructor() {
         </div>
         <Button disabled={!ingredients.length || !bun} htmlType="button" type="primary" size="large" onClick={handlePostOrder}>Оформить заказ</Button>
       </div>
+
+      {isLoaderModalOpen && (
+        <Modal
+          header={'Оформляем заказ...'}
+          onClose={handleCloseModal}
+        >
+          <Loader/>
+        </Modal>)
+      }
 
       {isOrderModalOpen && (
         <Modal
