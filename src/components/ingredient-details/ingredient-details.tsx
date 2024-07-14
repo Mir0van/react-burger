@@ -2,25 +2,21 @@ import React, { useMemo } from 'react'
 import styles from './ingredient-details.module.css'
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-// import { useDispatch } from 'react-redux';
-// import { addSelectedIngredient } from '../../services/ingredients/reducer';
+import {TBurgerIngredient} from "../../utils/types";
 
 export default function IngredientDetails() {
+  // @ts-ignore
   const ingredients = useSelector((store) => store.ingredients.ingredientsData);
   const {ingredientId} = useParams();
-  // const dispatch = useDispatch();
 
   const selectedIngredient = useMemo(
-    () => (ingredients.find((ingredient) => ingredient._id === ingredientId)),
+    () => (ingredients.find((ingredient: TBurgerIngredient) => ingredient._id === ingredientId)),
     [ingredients, ingredientId]
   );
 
   if (!selectedIngredient) {
     return null;
   }
-
-  // временно оставил. пока не знаю нужена эта инфа будет или нет, удалю после ревью
-  // dispatch(addSelectedIngredient(selectedIngredient));
 
   return (
     <div className={styles.container}>

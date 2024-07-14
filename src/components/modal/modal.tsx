@@ -5,12 +5,18 @@ import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
-const modalRoot = document.getElementById("modals");
+const modalRoot = document.getElementById("modals") as HTMLElement;
 
-export default function Modal({ header, children, onClose }) {
+type TModalProps = {
+  header: string;
+  children: React.ReactNode;
+  onClose: () => void;
+};
+
+export default function Modal({ header, children, onClose }: TModalProps): React.JSX.Element {
 
   useEffect(() => {
-    const handleKeyDown = (evt) => {
+    const handleKeyDown = (evt: KeyboardEvent) => {
       if (evt.key === 'Escape') {
         onClose();
       }
@@ -32,7 +38,7 @@ export default function Modal({ header, children, onClose }) {
             <div className={styles.header}>
               <p className='text text_type_main-large mt-3'>{header}</p>
               <button className={styles.close_btn} onClick={onClose}>
-                <CloseIcon />
+                <CloseIcon type='primary' />
               </button>
             </div>
             {children}

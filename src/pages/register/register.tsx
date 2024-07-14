@@ -1,10 +1,10 @@
-import React, { useCallback, useState } from 'react';
-import { EmailInput, PasswordInput, Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Link } from 'react-router-dom';
+import React, {FormEvent, useCallback} from 'react';
+import {Button, EmailInput, Input, PasswordInput} from '@ya.praktikum/react-developer-burger-ui-components';
+import {Link} from 'react-router-dom';
 import styles from './register.module.css'
-import { useForm } from '../../hooks/useForm';
-import { useDispatch } from 'react-redux';
-import { register } from '../../services/user/actions';
+import {useForm} from '../../hooks/useForm';
+import {useDispatch} from 'react-redux';
+import {register} from '../../services/user/actions';
 
 export default function Register() {
   const dispatch = useDispatch();
@@ -16,9 +16,10 @@ export default function Register() {
   })
 
   const handleSubmitForm = useCallback(
-    (event) => {
+    (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
       // тут будет логика отправки данных пользователя
+      // @ts-ignore
       dispatch(register(form))
       console.log(form, 'form register');
     },
@@ -32,12 +33,14 @@ export default function Register() {
           <h1 className="text text_type_main-medium mb-6">Регистрация</h1>
           <form action="#" className={`${styles.form} mb-20`} onSubmit={handleSubmitForm}>
             <Input
-              onChange={handleChangeInput}
-              value={form.name}
-              name={'name'}
-              type={'text'}
-              placeholder={'Имя'}
-              extraClass="mb-6"
+                onChange={handleChangeInput}
+                value={form.name}
+                name={'name'}
+                type={'text'}
+                placeholder={'Имя'}
+                extraClass="mb-6"
+                onPointerEnterCapture={undefined}
+                onPointerLeaveCapture={undefined}
             />
             <EmailInput
               onChange={handleChangeInput}

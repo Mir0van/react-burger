@@ -10,7 +10,7 @@ const LOGOUT_URL = `${BURGER_API_URL}/auth/logout`;
 const TOKEN_URL = `${BURGER_API_URL}/auth/token`;
 const USER_URL = `${BURGER_API_URL}/auth/user`;
 
-const ANIMATION_DELAY = 300;
+// const ANIMATION_DELAY = 300;
 
 export {
   INGREDIENTS_URL,
@@ -22,5 +22,4 @@ export {
   LOGOUT_URL,
   TOKEN_URL,
   USER_URL,
-  ANIMATION_DELAY
 }

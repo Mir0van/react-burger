@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, {FormEvent, useCallback, useState} from 'react';
 import { EmailInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './forgot-password.module.css'
@@ -15,14 +15,14 @@ export default function ForgotPassword() {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmitForm = useCallback(
-    async (event) => {
+    async (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
       setIsLoading(true);
       console.log(form, 'form forgot-password');
 
       try {
-        const response = await forgotPassword(form);
-        navigate('/reset-password');
+          await forgotPassword(form);
+          navigate('/reset-password');
       } catch (error) {
         
       } finally {

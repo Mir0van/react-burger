@@ -5,20 +5,22 @@ import { useForm } from '../../hooks/useForm';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUserData } from '../../services/user/actions';
 import loaderImg from '../../images/svg/bouncing-loader.svg'
+import { TUserData } from '../../utils/types';
 
 export default function ProfileInputs() {
   const dispatch = useDispatch();
-  const [form, handleChangeInput, setValues] = useForm({
+  const [form, handleChangeInput, setValues] = useForm<TUserData>({
     name: '',
     email: '',
     password: '',
   });
 
-  const [disableInput, setDisableInput] = useState(true);
-  const inputRef = useRef(null);
+  const [disableInput, setDisableInput] = useState<boolean>(true);
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
+  // @ts-ignore
   const { user, isLoading } = useSelector(store => store.user);
-  const [isButtonsActive, setIsButtonsActive] = useState(false);
+  const [isButtonsActive, setIsButtonsActive] = useState<boolean>(false);
 
   useEffect(() => {
     if (user) {
@@ -44,9 +46,9 @@ export default function ProfileInputs() {
     setDisableInput(true)
   }
 
-  const shallowEqual = (obj1, obj2) => {
-    const keys1 = Object.keys(obj1);
-    const keys2 = Object.keys(obj2);
+  const shallowEqual = (obj1: TUserData, obj2: TUserData): boolean => {
+    const keys1 = Object.keys(obj1) as Array<keyof TUserData>;
+    const keys2 = Object.keys(obj2) as Array<keyof TUserData>;
 
     if (keys1.length !== keys2.length) {
       return false;
@@ -70,9 +72,10 @@ export default function ProfileInputs() {
     }
   }, [form, user])
 
-  const handleSubmitForm = (event) => {
+  const handleSubmitForm = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
     
+    // @ts-ignore
     dispatch(updateUserData(form));
 
     setValues({
@@ -82,7 +85,7 @@ export default function ProfileInputs() {
     });
   }
 
-  const handleResetForm = (event) => {
+  const handleResetForm = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
     setValues({
       ...user,
@@ -105,6 +108,9 @@ export default function ProfileInputs() {
           onBlur={handleBlurInput}
           disabled={disableInput}
           ref={inputRef}
+          // ниже 2 свойства это из за бага библиотеки яндекса. инфа от наставника
+          onPointerEnterCapture={undefined} 
+          onPointerLeaveCapture={undefined}        
         />
         <EmailInput
           onChange={handleChangeInput}

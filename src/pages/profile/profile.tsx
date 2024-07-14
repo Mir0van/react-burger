@@ -9,6 +9,7 @@ export default function Profile() {
   const location = useLocation();
 
   const handleExitClick = () => {
+    // @ts-ignore
     dispatch(logout());
   }
 

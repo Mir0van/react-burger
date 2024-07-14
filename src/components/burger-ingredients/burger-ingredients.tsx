@@ -4,38 +4,42 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import IngredientList from '../ingredient-list/ingredient-list';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentTab } from '../../services/tabs/reducer';
+import {TBurgerIngredient} from "../../utils/types";
 
 export default function BurgerIngredients() {
+  // @ts-ignore
   const {currentTab} = useSelector(store => store.tabs)
+  // @ts-ignore
   const {ingredientsData, isLoading, error} = useSelector(store => store.ingredients)
+  // @ts-ignore
   const {bun, ingredients} = useSelector(store => store.burgerConstructor)
   const dispatch = useDispatch();
-  const bunsRef = useRef(null)
-  const mainsRef = useRef(null)
-  const saucesRef = useRef(null)
-  const tabsRef = useRef(null)
+  const bunsRef = useRef<HTMLHeadingElement>(null)
+  const mainsRef = useRef<HTMLHeadingElement>(null)
+  const saucesRef = useRef<HTMLHeadingElement>(null)
+  const tabsRef = useRef<HTMLHeadingElement>(null)
 
   const buns = useMemo(
-    () => ingredientsData.filter((item) => item.type === "bun"),
+    () => ingredientsData.filter((item: TBurgerIngredient) => item.type === "bun"),
     [ingredientsData]
   );
 
   const mains = useMemo(
-    () => ingredientsData.filter((item) => item.type === "main"),
+    () => ingredientsData.filter((item: TBurgerIngredient) => item.type === "main"),
     [ingredientsData]
   );
 
   const sauces = useMemo(
-    () => ingredientsData.filter((item) => item.type === "sauce"),
+    () => ingredientsData.filter((item: TBurgerIngredient) => item.type === "sauce"),
     [ingredientsData]
   );
 
   const countersValue = useMemo(() => {
     // console.log('посчитал каунтер')
   
-    const countObject = ingredients.reduce((acc, item) => {
-      if (!item) return acc; 
-  
+    const countObject = ingredients.reduce((acc: {[item: string]: number}, item: TBurgerIngredient) => {
+      if (!item) return acc;
+
       const itemId = item._id;
       if (acc[itemId]) {
         acc[itemId]++;
@@ -57,15 +61,15 @@ export default function BurgerIngredients() {
     return countObject;
   }, [ingredients, bun]);
 
-  const handleTabClick = (value) => {
+  const handleTabClick = (value: string) => {
     dispatch(setCurrentTab(value));
 
-    const refMap = {
+    const refMap: { [key: string]: React.RefObject<HTMLHeadingElement> } = {
       'bun': bunsRef,
       'sauce': saucesRef,
       'main': mainsRef
     };
-    refMap[value].current.scrollIntoView({ behavior: 'smooth' });
+    refMap[value].current?.scrollIntoView({ behavior: 'smooth' });
   };
 
   const handleScrollIngredients = () => {
@@ -73,10 +77,10 @@ export default function BurgerIngredients() {
       return;
     }
 
-    const tabsRefBottom = tabsRef.current.getBoundingClientRect().bottom
-    const bunsRefTop = bunsRef.current.getBoundingClientRect().top
-    const mainsRefTop = mainsRef.current.getBoundingClientRect().top
-    const saucesRefTop = saucesRef.current.getBoundingClientRect().top
+    const tabsRefBottom = tabsRef.current?.getBoundingClientRect().bottom ?? 0
+    const bunsRefTop = bunsRef.current?.getBoundingClientRect().top ?? 0
+    const mainsRefTop = mainsRef.current?.getBoundingClientRect().top ?? 0
+    const saucesRefTop = saucesRef.current?.getBoundingClientRect().top ?? 0
 
     const bunsDistance = Math.abs(tabsRefBottom - bunsRefTop)
     const mainsDistance = Math.abs(tabsRefBottom - mainsRefTop)

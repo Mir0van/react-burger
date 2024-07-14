@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux';
 import Loader from '../../components/loader/loader';
 
 export default function Home() {
+  // @ts-ignore
   const { isLoading } = useSelector((store) => store.ingredients)
   
   return (
