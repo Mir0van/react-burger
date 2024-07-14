@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, {FormEvent, useCallback} from 'react';
 import { EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link } from 'react-router-dom';
 import { useForm } from '../../hooks/useForm';
@@ -15,11 +15,11 @@ export default function Login() {
   })
 
   const handleSubmitForm = useCallback(
-    (event) => {
+    (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
       // тут будет логика отправки данных пользователя
+      // @ts-ignore
       dispatch(login(form))
-      console.log(form, 'form login');
     },
     [dispatch, form]
   );

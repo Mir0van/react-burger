@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, {FormEvent, useCallback, useEffect} from 'react';
 import { PasswordInput, Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './reset-password.module.css'
@@ -22,7 +22,7 @@ export default function ResetPassword() {
   }, [navigate]);
 
   const handleSubmitForm = useCallback(
-    async (event) => {
+    async (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
       console.log(form, 'form reset-password');
 
@@ -51,11 +51,13 @@ export default function ResetPassword() {
               extraClass="mb-6"
               />
             <Input
-              onChange={handleChangeInput}
-              value={form.token}
-              name={'token'}
-              placeholder="Введите код из письма"
-              extraClass="mb-6"
+                onChange={handleChangeInput}
+                value={form.token}
+                name={'token'}
+                placeholder="Введите код из письма"
+                extraClass="mb-6"
+                onPointerEnterCapture={undefined}
+                onPointerLeaveCapture={undefined}
             />
             <Button htmlType="submit" type="primary" size="medium">
               Сохранить

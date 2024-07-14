@@ -18,16 +18,17 @@ import ProfileInputs from '../profile-inputs/profile-inputs';
 import FeedHistory from '../feed-history/feed-history';
 import { OnlyAuth, OnlyUnAuth } from '../protected-route/protected-route';
 
-function App() {
+function App(): React.JSX.Element {
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
   const location = useLocation();
   const background = location.state && location.state.background;
-  // console.log(location, 'location app')
 
   useEffect(() => {
+    // @ts-ignore
     dispatch(getUser())
+    // @ts-ignore
     dispatch(getIngredients())
   }, [dispatch])
 

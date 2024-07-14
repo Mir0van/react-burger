@@ -1,3 +1,4 @@
+import { TBurgerIngredient, TUserData, TTokens, TFetchOptions, TUserResponse, TResetPassword } from './types';
 import {
   INGREDIENTS_URL,
   ORDER_URL,
@@ -18,32 +19,32 @@ const header = {
 // --------------------
 // хелперы
 
-const checkResponse = (res) => {
+const checkResponse = <T>(res: Response): Promise<T> => {
   return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
 };
 
-const getTokens = (data) => {
+const getTokens = <T extends TTokens>(data: T): Promise<T> => {
   if (!data.success) {
     return Promise.reject(data);
   }
   localStorage.setItem('refreshToken', data.refreshToken);
   localStorage.setItem('accessToken', data.accessToken);
-  return data;
-}
+  return Promise.resolve(data);
+};
 
-const deleteTokens = (data) => {
+const deleteTokens = <T extends Pick<TTokens, 'success'>>(data: T): Promise<T> => {
   if (!data.success) {
     return Promise.reject(data);
   }
   localStorage.removeItem('accessToken');
   localStorage.removeItem('refreshToken');
-  return data;
-}
+  return Promise.resolve(data);
+};
 
 // ------------------------------------
 // работа с апи
 
-export const refreshToken = () => {
+export const refreshToken = (): Promise<TTokens> => {
   return fetch(TOKEN_URL, {
     method: "POST",
     headers: header,
@@ -51,65 +52,68 @@ export const refreshToken = () => {
       token: localStorage.getItem("refreshToken"),
     }),
   })
-  .then(checkResponse)
-   // Важно для обновления токена в мидлваре, чтобы запись
-   // была тут, а не в fetchWithRefresh
-  .then(getTokens);
+    .then(checkResponse<TTokens>)
+    // Важно для обновления токена в мидлваре, чтобы запись
+    // была тут, а не в fetchWithRefresh
+    .then(getTokens);
 };
 
-export const fetchWithRefresh = async (url, options) => {
+
+
+export const fetchWithRefresh = async <T>(url: string, options: TFetchOptions): Promise<T> => {
   try {
     const res = await fetch(url, options);
-    return await checkResponse(res);
+    return await checkResponse<T>(res);
   } catch (err) {
-    if (err.message === "jwt expired") {
-      const refreshData = await refreshToken(); //обновляем токен
+    if ((err as Error).message === "jwt expired") {
+      const refreshData = await refreshToken(); // обновляем токен
       options.headers.authorization = refreshData.accessToken;
-      const res = await fetch(url, options); //повторяем запрос
-      return await checkResponse(res);
+      const res = await fetch(url, options); // повторяем запрос
+      return await checkResponse<T>(res);
     } else {
       return Promise.reject(err);
     }
   }
 };
 
-export const getIngredients = () => fetch(INGREDIENTS_URL).then(checkResponse);
+export const getIngredients = (): Promise<Array<TBurgerIngredient>> => fetch(INGREDIENTS_URL).then(checkResponse<Array<TBurgerIngredient>>);
 
-export const postOrder = (ingredientIds) => {
+export const postOrder = (ingredientIds: string[]) => {
   return fetch(ORDER_URL, {
     body: JSON.stringify({
       ingredients: ingredientIds
     }),
     method: 'POST',
+
     headers: {
       ...header,
-      authorization: localStorage.getItem('accessToken')
+      authorization: localStorage.getItem('accessToken') || ''
     }
   })
     .then(checkResponse);
 };
 
-export const login = (form) => {
+export const login = (form: Omit<TUserData, 'name'>): Promise<TUserResponse> => {
   return fetch(LOGIN_URL, {
     body: JSON.stringify(form),
     method: 'POST',
     headers: header,
   })
-    .then(checkResponse)
+    .then(checkResponse<TUserResponse>)
     .then(getTokens);
 }
 
-export const register = (form) => {
+export const register = (form: TUserData): Promise<TUserResponse> => {
   return fetch(REGISTER_URL, {
     body: JSON.stringify(form),
     method: 'POST',
     headers: header,
   })
-    .then(checkResponse)
+    .then(checkResponse<TUserResponse>)
     .then(getTokens);
 }
 
-export const logout = () => {
+export const logout = (): Promise<Pick<TTokens, 'success'>> => {
   return fetch(LOGOUT_URL, {
     body: JSON.stringify({
       token: localStorage.getItem('refreshToken'),
@@ -117,33 +121,33 @@ export const logout = () => {
     method: 'POST',
     headers: header
   })
-    .then(checkResponse)
+    .then(checkResponse<Pick<TTokens, 'success'>>)
     .then(deleteTokens)
 }
 
-export const forgotPassword = (form) => {
+export const forgotPassword = (form: Pick<TUserData, 'email'>): Promise<Pick<TTokens, 'success'>> => {
   return fetch(PASSWORD_RESET_URL, {
     body: JSON.stringify(form),
     method: 'POST',
     headers: header,
   })
-    .then(checkResponse)
+    .then(checkResponse<Pick<TTokens, 'success'>>)
     .then((data) => {
       if (!data.success) {
         return Promise.reject(data);
       }
-      localStorage.setItem('resetPassword', true);
+      localStorage.setItem('resetPassword', 'true');
       return data;
     });
 };
 
-export const resetPassword = (form) => {
+export const resetPassword = (form: TResetPassword): Promise<Pick<TTokens, 'success'>> => {
   return fetch(PASSWORD_SAVE_URL, {
     body: JSON.stringify(form),
     method: 'POST',
     headers: header,
   })
-    .then(checkResponse)
+    .then(checkResponse<Pick<TTokens, 'success'>>)
     .then((data) => {
       if (!data.success) {
         return Promise.reject(data);
@@ -153,27 +157,27 @@ export const resetPassword = (form) => {
     });
 }
 
-export const getUser = () => {
+export const getUser = (): Promise<Omit<TUserData, 'password'>> => {
   const options = {
     method: 'GET',
     headers: {
       ...header,
-      authorization: localStorage.getItem('accessToken')
+      authorization: localStorage.getItem('accessToken')|| ''
     }
   };
 
-  return fetchWithRefresh(USER_URL, options);
+  return fetchWithRefresh<Omit<TUserData, 'password'>>(USER_URL, options);
 };
 
-export const updateUserData = (form) => {
+export const updateUserData = (form: TUserData): Promise<TUserResponse> => {
   const options = {
     body: JSON.stringify(form),
     method: 'PATCH',
     headers: {
       ...header,
-      authorization: localStorage.getItem('accessToken')
+      authorization: localStorage.getItem('accessToken') || ''
     }
   };
 
-  return fetchWithRefresh(USER_URL, options);
+  return fetchWithRefresh<TUserResponse>(USER_URL, options);
 };

@@ -1,10 +1,19 @@
 import React from 'react'
 import styles from './ingredient-list.module.css'
 import BurgerIngredient from '../burger-ingredient/burger-ingredient';
-import PropTypes from 'prop-types';
-import { ingredientPropType } from '../../utils/prop-types';
+import { TBurgerIngredient } from '../../utils/types';
 
-const IngredientList = React.forwardRef(({ title, ingredients, countersValue }, ref) => {
+type TCountersValue = {
+  [key: string]: number;
+};
+
+type TIngredientListProps = {
+  title: string;
+  ingredients: Array<TBurgerIngredient>;
+  countersValue: TCountersValue;
+}
+
+const IngredientList = React.forwardRef<HTMLHeadingElement, TIngredientListProps>(({ title, ingredients, countersValue }, ref): React.JSX.Element => {
   return (
     <div>
       <h3 ref={ref} className='text text_type_main-medium mb-6'>{title}</h3>
@@ -20,11 +29,5 @@ const IngredientList = React.forwardRef(({ title, ingredients, countersValue }, 
     </div>
   )
 });
-
-IngredientList.propTypes = {
-  title: PropTypes.string.isRequired,
-  ingredients: PropTypes.arrayOf(ingredientPropType).isRequired,
-  countersValue: PropTypes.object.isRequired
-};
 
 export default IngredientList;
