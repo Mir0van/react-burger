@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import styles from './profile-inputs.module.css'
 import { Button, EmailInput, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components'
 import { useForm } from '../../hooks/useForm';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../../services/store';
 import { updateUserData } from '../../services/user/actions';
 import loaderImg from '../../images/svg/bouncing-loader.svg'
 import { TUserData } from '../../utils/types';
@@ -18,7 +18,6 @@ export default function ProfileInputs() {
   const [disableInput, setDisableInput] = useState<boolean>(true);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
-  // @ts-ignore
   const { user, isLoading } = useSelector(store => store.user);
   const [isButtonsActive, setIsButtonsActive] = useState<boolean>(false);
 
@@ -46,7 +45,7 @@ export default function ProfileInputs() {
     setDisableInput(true)
   }
 
-  const shallowEqual = (obj1: TUserData, obj2: TUserData): boolean => {
+  const shallowEqual = (obj1: Partial<TUserData>, obj2: Partial<TUserData>): boolean => {
     const keys1 = Object.keys(obj1) as Array<keyof TUserData>;
     const keys2 = Object.keys(obj2) as Array<keyof TUserData>;
 
@@ -75,7 +74,6 @@ export default function ProfileInputs() {
   const handleSubmitForm = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
     
-    // @ts-ignore
     dispatch(updateUserData(form));
 
     setValues({
@@ -90,7 +88,7 @@ export default function ProfileInputs() {
     setValues({
       ...user,
       password: '',
-    });
+    } as TUserData);
   }
 
   return (

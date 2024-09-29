@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector } from '../../services/store';
 import { Navigate, useLocation } from 'react-router-dom';
 import Loader from '../loader/loader';
 import styles from './protected-route.module.css'
@@ -10,7 +10,6 @@ type TProtectedRouteProps = {
 };
 
 function ProtectedRoute({ onlyUnAuth, component }: TProtectedRouteProps): React.JSX.Element {
-  // @ts-ignore
   const { isAuthChecked, user } = useSelector((store) => store.user);
   const location = useLocation();
 

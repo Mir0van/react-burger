@@ -1,5 +1,11 @@
 import { reducer } from "./reducer";
 import { configureStore } from "@reduxjs/toolkit";
+import {
+  useDispatch as dispatchHook,
+  useSelector as selectorHook,
+  TypedUseSelectorHook,
+} from "react-redux";
+
 // import logger from 'redux-logger'
 
 // -------------------------------
@@ -13,8 +19,9 @@ import { configureStore } from "@reduxjs/toolkit";
 // };
 // -------------------------------
 
+type TInitialState = Record<string, unknown>
 
-export const configureAppStore = (initialState) => {
+export const configureAppStore = (initialState: TInitialState = {}) => {
   const store = configureStore({
     reducer,
     preloadedState: initialState,
@@ -26,3 +33,9 @@ export const configureAppStore = (initialState) => {
   return store;
 }
 
+type AppStore = ReturnType<typeof configureAppStore>;
+type AppDispatch = AppStore['dispatch'];
+type TRootState = ReturnType<AppStore['getState']>;
+
+export const useDispatch = () => dispatchHook<AppDispatch>();
+export const useSelector: TypedUseSelectorHook<TRootState> = selectorHook;

@@ -1,6 +1,10 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-const initialState = {
+type TInitialState = {
+  currentTab: string;
+}
+
+const initialState: TInitialState = {
   currentTab: 'bun',
 }
 
@@ -8,7 +12,7 @@ export const tabsSlice = createSlice({
   name: 'tabs',
   initialState,
   reducers: {
-    setCurrentTab: (state, action) => {
+    setCurrentTab: (state, action: PayloadAction<string>) => {
       state.currentTab = action.payload
     }
   }

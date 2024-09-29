@@ -4,11 +4,10 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import BurgerIngredients from '../../components/burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../../components/burger-constructor/burger-constructor';
-import { useSelector } from 'react-redux';
+import { useSelector } from '../../services/store';
 import Loader from '../../components/loader/loader';
 
 export default function Home() {
-  // @ts-ignore
   const { isLoading } = useSelector((store) => store.ingredients)
   
   return (

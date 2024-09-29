@@ -1,6 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
+type TInitialState = {
+  isOrderModalOpen: boolean;
+  isIngredientModalOpen: boolean;
+  isLoaderModalOpen: boolean;
+}
+
+const initialState: TInitialState = {
   isOrderModalOpen: false,
   isIngredientModalOpen: false,
   isLoaderModalOpen: false,
@@ -22,12 +28,6 @@ export const modalsSlice = createSlice({
     closeLoaderModal: (state) => {
       state.isLoaderModalOpen = false;
     },
-    // openIngredientModal: (state) => {
-    //   state.isIngredientModalOpen = true;
-    // },
-    // closeIngredientModal: (state) => {
-    //   state.isIngredientModalOpen = false;
-    // },
   },
 });
 
@@ -36,6 +36,4 @@ export const {
   closeOrderModal,
   openLoaderModal,
   closeLoaderModal,
-  // openIngredientModal,
-  // closeIngredientModal,
 } = modalsSlice.actions;

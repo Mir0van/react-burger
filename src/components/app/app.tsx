@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { getIngredients } from '../../services/ingredients/actions';
 import { getUser } from '../../services/user/actions';
-import { useDispatch } from 'react-redux';
+import { useDispatch } from '../../services/store';
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import Layout from '../layout/layout';
 import Home from '../../pages/home/home';
@@ -26,9 +26,7 @@ function App(): React.JSX.Element {
   const background = location.state && location.state.background;
 
   useEffect(() => {
-    // @ts-ignore
     dispatch(getUser())
-    // @ts-ignore
     dispatch(getIngredients())
   }, [dispatch])
 

@@ -44,3 +44,10 @@ export type TFetchOptions = {
     'Content-Type': string;
   };
 };
+
+export type TOrder = {
+  name: string;
+  order: {
+      number: number;
+  }
+}

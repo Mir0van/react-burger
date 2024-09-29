@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './profile.module.css';
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch } from '../../services/store';
 import { logout } from '../../services/user/actions';
 
 export default function Profile() {
@@ -9,7 +9,6 @@ export default function Profile() {
   const location = useLocation();
 
   const handleExitClick = () => {
-    // @ts-ignore
     dispatch(logout());
   }
 

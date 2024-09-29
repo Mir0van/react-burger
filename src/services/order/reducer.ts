@@ -1,7 +1,15 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { postOrder } from "./actions";
+import { TOrder } from "../../utils/types";
 
-const initialState = {
+type TInitialState = {
+  isLoading: boolean;
+  error: null | string;
+  orderNumber: number | null;
+  orderName: string;
+}
+
+const initialState: TInitialState = {
   isLoading: false,
   error: null,
   orderNumber: null,
@@ -11,9 +19,10 @@ const initialState = {
 export const orderSlice = createSlice({
   name: 'order',
   initialState,
+  reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(postOrder.fulfilled, (state, action) => {
+      .addCase(postOrder.fulfilled, (state, action: PayloadAction<TOrder>) => {
         state.isLoading = false;
         state.orderNumber = action.payload.order.number;
         state.orderName = action.payload.name;
@@ -24,7 +33,7 @@ export const orderSlice = createSlice({
       })
       .addCase(postOrder.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.error.message;
+        state.error = action.error.message ?? null;
       });
   }
 });

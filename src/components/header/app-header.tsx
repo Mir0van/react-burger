@@ -1,10 +1,9 @@
 import { Logo, BurgerIcon, ListIcon, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './app-header.module.css';
 import { NavLink, useLocation } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector } from '../../services/store';
 
 export default function AppHeader(): React.JSX.Element {
-  // @ts-ignore
   const user = useSelector(store => store.user.user)
 
   const location = useLocation();

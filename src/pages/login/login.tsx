@@ -3,7 +3,7 @@ import { EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer
 import { Link } from 'react-router-dom';
 import { useForm } from '../../hooks/useForm';
 import styles from './login.module.css'
-import { useDispatch } from 'react-redux';
+import { useDispatch } from '../../services/store';
 import { login } from '../../services/user/actions';
 
 export default function Login() {
@@ -18,7 +18,6 @@ export default function Login() {
     (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
       // тут будет логика отправки данных пользователя
-      // @ts-ignore
       dispatch(login(form))
     },
     [dispatch, form]

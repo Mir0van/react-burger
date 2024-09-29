@@ -4,7 +4,7 @@ import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
 import { CurrencyIcon, Button, DragIcon, ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components'
 import { useCallback, useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../../services/store';
 import { closeOrderModal } from '../../services/modals/reducer';
 import { addBunToConstructor, addIngredientsToConstructor, clearIngredientsConstructor, deleteIngredientFromConstructor, moveIngredientCard } from '../../services/constructor/reducer';
 import { postOrder } from '../../services/order/actions';
@@ -20,13 +20,9 @@ type TDragObject = {
 }
 
 export default function BurgerConstructor() {
-  // @ts-ignore
   const { isOrderModalOpen, isLoaderModalOpen } = useSelector(store => store.modals)
-  // @ts-ignore
   const { ingredientsData } = useSelector(store => store.ingredients)
-  // @ts-ignore
   const { bun, ingredients } = useSelector(store => store.burgerConstructor)
-  // @ts-ignore
   const user = useSelector(store => store.user.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -67,7 +63,7 @@ export default function BurgerConstructor() {
       ingredientIds.push(bun._id);
       ingredientIds.push(bun._id);
     }
-    // @ts-ignore
+
     dispatch(postOrder(ingredientIds))
   };
 
@@ -108,7 +104,7 @@ export default function BurgerConstructor() {
     dispatch(moveIngredientCard(newIngredients))
   }, [dispatch, ingredients]);
 
-  return ingredientsData && Boolean(ingredientsData.length) && (
+  return ingredientsData && Boolean(ingredientsData.length) ? (
     <section className={styles.section}>
       <h2 className='visually-hidden'>Конструктор бургеров</h2>
       <div className={`${styles.burger_constructor} mb-10`} ref={dropRef}>
@@ -179,5 +175,5 @@ export default function BurgerConstructor() {
       }
 
     </section>
-  )
+  ) : null
 }
