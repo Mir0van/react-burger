@@ -14,7 +14,7 @@ export default function Feed() {
           </div>
           <div className={styles['summary-wrapper']}>
             <div className={styles['orders-wrapper']}>
-              <div>
+              <div className={styles['status-wrapper']}>
                 <p className='text text_type_main-medium mb-6'>Готовы:</p>
                 <div className={styles.orders}>
                   <ul className={styles.list}>
@@ -33,7 +33,7 @@ export default function Feed() {
                   </ul>
                 </div>
               </div>
-              <div>
+              <div className={styles['status-wrapper']}>
                 <p className='text text_type_main-medium mb-6'>В работе:</p>
                 <div className={styles.orders}>
                   <ul className={styles.list}>

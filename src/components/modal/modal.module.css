@@ -58,3 +58,9 @@
 .close_btn > svg {
   display: block;
 }
+
+.close_btn__float {
+  position: absolute;
+  top: 0;
+  right: 20px;
+}

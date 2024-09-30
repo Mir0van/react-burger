@@ -1,12 +1,14 @@
 import React from 'react'
 import styles from './order-feed.module.css'
 import { CurrencyIcon, FormattedDate } from "@ya.praktikum/react-developer-burger-ui-components";
+import { Link, useLocation } from 'react-router-dom';
 
 export default function OrderFeed(): React.JSX.Element {
+  const location = useLocation();
   const mockDate = '2024-09-29T17:33:32.877Z'
 
   return (
-    <div className={styles.wrapper}>
+    <Link className={styles.wrapper} to={'feedMock'} state={{ background: location }}>
       <div className={styles.header}>
         <p className='text text_type_digits-default'>#034535</p>
         <FormattedDate className='text text_type_main-default text_color_inactive' date={new Date(mockDate)} />
@@ -39,6 +41,6 @@ export default function OrderFeed(): React.JSX.Element {
           <CurrencyIcon type="primary" />
         </div>
       </div>
-    </div>
+    </Link>
   )
 }

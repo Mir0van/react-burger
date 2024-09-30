@@ -48,6 +48,7 @@
   flex-direction: column;
   min-height: 0;
   overflow-y: auto;
+  scrollbar-width: thin;
 }
 
 .orders-wrapper {
@@ -55,6 +56,10 @@
   grid-template-columns: 1fr 1fr;
   column-gap: 60px;
   margin-bottom: 60px;
+}
+
+.status-wrapper:first-of-type li {
+  color: #0cc;
 }
 
 .orders {

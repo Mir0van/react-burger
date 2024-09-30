@@ -17,6 +17,7 @@ import Profile from '../../pages/profile/profile';
 import ProfileInputs from '../profile-inputs/profile-inputs';
 import FeedHistory from '../feed-history/feed-history';
 import { OnlyAuth, OnlyUnAuth } from '../protected-route/protected-route';
+import FeedDetails from '../feed-details/feed-details';
 
 function App(): React.JSX.Element {
   const dispatch = useDispatch();
@@ -40,14 +41,16 @@ function App(): React.JSX.Element {
         <Route path='/' element={<Layout />} >
           <Route index element={<Home />} />
           <Route path='ingredients/:ingredientId' element={<IngredientDetails />} />
-          <Route path="/login" element={<OnlyUnAuth component={<Login />} />} />
+          <Route path='/login' element={<OnlyUnAuth component={<Login />} />} />
           <Route path='/register' element={<OnlyUnAuth component={<Register />} />} />
-          <Route path='/forgot-password' element={<OnlyUnAuth component={<ForgotPassword />}/>} />
-          <Route path='/reset-password' element={<OnlyUnAuth component={<ResetPassword/>}/>} />
+          <Route path='/forgot-password' element={<OnlyUnAuth component={<ForgotPassword />} />} />
+          <Route path='/reset-password' element={<OnlyUnAuth component={<ResetPassword />} />} />
           <Route path='/feed' element={<Feed />} />
-          <Route path='/profile' element={<OnlyAuth component={<Profile/>}/>}>
+          <Route path='/feed/feedMock' element={<FeedDetails />} />
+          <Route path='/profile' element={<OnlyAuth component={<Profile />} />}>
             <Route index element={<ProfileInputs />} />
             <Route path='orders' element={<FeedHistory />} />
+            <Route path='orders/feedMock' element={<FeedDetails />} />
           </Route>
           <Route path='*' element={<NotFoundPage />} />
         </Route>
@@ -61,6 +64,22 @@ function App(): React.JSX.Element {
             element={
               <Modal onClose={handleModalClose} header={'Детали ингредиента'}>
                 <IngredientDetails />
+              </Modal>
+            }
+          />
+          <Route
+            path='/feed/feedMock'
+            element={
+              <Modal onClose={handleModalClose}>
+                <FeedDetails />
+              </Modal>
+            }
+          />
+          <Route
+            path='/profile/orders/feedMock'
+            element={
+              <Modal onClose={handleModalClose}>
+                <FeedDetails />
               </Modal>
             }
           />
