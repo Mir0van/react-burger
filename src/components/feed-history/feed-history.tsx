@@ -1,7 +1,15 @@
 import React from 'react'
+import styles from './feed-history.module.css'
+import OrderFeed from '../order-feed/order-feed'
 
 export default function FeedHistory() {
   return (
-    <p className='text text_type_main-large'>Приветики {':)'}</p>
+    <div className={styles.wrapper}>
+      <OrderFeed/>
+      <OrderFeed/>
+      <OrderFeed/>
+      <OrderFeed/>
+      <OrderFeed/>
+    </div>
   )
 }

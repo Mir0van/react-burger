@@ -2,7 +2,7 @@ import styles from './burger-constructor.module.css';
 import BurgerConstructorElement from './burger-constructor-element/burger-constructor-element';
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
-import { CurrencyIcon, Button, DragIcon, ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components'
+import { CurrencyIcon, Button, ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components'
 import { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from '../../services/store';
 import { closeOrderModal } from '../../services/modals/reducer';
