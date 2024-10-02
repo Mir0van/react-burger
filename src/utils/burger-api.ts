@@ -1,4 +1,4 @@
-import { TBurgerIngredient, TUserData, TTokens, TFetchOptions, TUserResponse, TResetPassword, TOrder } from './types';
+import { TBurgerIngredient, TUserData, TTokens, TFetchOptions, TUserResponse, TResetPassword, TOrder, TFeedOrder } from './types';
 import {
   INGREDIENTS_URL,
   ORDER_URL,
@@ -182,3 +182,7 @@ export const updateUserData = (form: TUserData): Promise<TUserResponse> => {
 
   return fetchWithRefresh<TUserResponse>(USER_URL, options);
 };
+
+export const getOrderByNumber = (number: number): Promise<{success: boolean, orders: TFeedOrder[]}> => 
+  fetch(`${ORDER_URL}/${number}`)
+    .then(checkResponse<{success: boolean, orders: TFeedOrder[]}>)

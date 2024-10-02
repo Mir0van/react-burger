@@ -1,25 +1,32 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { postOrder } from "./actions";
 import { TOrder } from "../../utils/types";
+import { TFeedOrder } from "../../utils/types";
 
 type TInitialState = {
   isLoading: boolean;
   error: null | string;
   orderNumber: number | null;
   orderName: string;
+  order: null | TFeedOrder
 }
 
 const initialState: TInitialState = {
   isLoading: false,
   error: null,
   orderNumber: null,
-  orderName: ''
+  orderName: '',
+  order: null,
 }
 
 export const orderSlice = createSlice({
   name: 'order',
   initialState,
-  reducers: {},
+  reducers: {
+    setSingleOrder: (state, action: PayloadAction<TFeedOrder>) => {
+      state.order = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(postOrder.fulfilled, (state, action: PayloadAction<TOrder>) => {
@@ -37,4 +44,6 @@ export const orderSlice = createSlice({
       });
   }
 });
+
+export const {setSingleOrder} = orderSlice.actions 
 

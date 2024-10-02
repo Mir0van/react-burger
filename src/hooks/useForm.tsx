@@ -19,10 +19,3 @@ export function useForm<T>(initialState: T): TUseForm<T> {
 
   return [form, handleChangeInput, setValues];
 }
-
-
-// [
-//   T,
-//   (event: ChangeEvent<HTMLInputElement>) => void,
-//   React.Dispatch<React.SetStateAction<T>>
-// ]

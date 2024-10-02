@@ -46,12 +46,12 @@ function App(): React.JSX.Element {
           <Route path='/forgot-password' element={<OnlyUnAuth component={<ForgotPassword />} />} />
           <Route path='/reset-password' element={<OnlyUnAuth component={<ResetPassword />} />} />
           <Route path='/feed' element={<Feed />} />
-          <Route path='/feed/feedMock' element={<FeedDetails />} />
+          <Route path='/feed/:number' element={<FeedDetails />} />
           <Route path='/profile' element={<OnlyAuth component={<Profile />} />}>
             <Route index element={<ProfileInputs />} />
             <Route path='orders' element={<FeedHistory />} />
-            <Route path='orders/feedMock' element={<FeedDetails />} />
           </Route>
+          <Route path='/profile/orders/:number' element={<OnlyAuth component={<FeedDetails />} />} />
           <Route path='*' element={<NotFoundPage />} />
         </Route>
       </Routes>
@@ -68,7 +68,7 @@ function App(): React.JSX.Element {
             }
           />
           <Route
-            path='/feed/feedMock'
+            path='/feed/:number'
             element={
               <Modal onClose={handleModalClose}>
                 <FeedDetails />
@@ -76,7 +76,7 @@ function App(): React.JSX.Element {
             }
           />
           <Route
-            path='/profile/orders/feedMock'
+            path='/profile/orders/:number'
             element={
               <Modal onClose={handleModalClose}>
                 <FeedDetails />
