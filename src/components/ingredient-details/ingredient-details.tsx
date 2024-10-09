@@ -1,11 +1,10 @@
 import React, { useMemo } from 'react'
 import styles from './ingredient-details.module.css'
 import { useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector } from '../../services/store';
 import {TBurgerIngredient} from "../../utils/types";
 
 export default function IngredientDetails() {
-  // @ts-ignore
   const ingredients = useSelector((store) => store.ingredients.ingredientsData);
   const {ingredientId} = useParams();
 

@@ -1,4 +1,4 @@
-import { TBurgerIngredient, TUserData, TTokens, TFetchOptions, TUserResponse, TResetPassword } from './types';
+import { TBurgerIngredient, TUserData, TTokens, TFetchOptions, TUserResponse, TResetPassword, TOrder, TFeedOrder } from './types';
 import {
   INGREDIENTS_URL,
   ORDER_URL,
@@ -76,9 +76,10 @@ export const fetchWithRefresh = async <T>(url: string, options: TFetchOptions): 
   }
 };
 
-export const getIngredients = (): Promise<Array<TBurgerIngredient>> => fetch(INGREDIENTS_URL).then(checkResponse<Array<TBurgerIngredient>>);
+export const getIngredients = (): Promise<{data: TBurgerIngredient[]}> => 
+  fetch(INGREDIENTS_URL).then(checkResponse<{data: TBurgerIngredient[]}>);
 
-export const postOrder = (ingredientIds: string[]) => {
+export const postOrder = (ingredientIds: string[]): Promise<TOrder> => {
   return fetch(ORDER_URL, {
     body: JSON.stringify({
       ingredients: ingredientIds
@@ -90,7 +91,7 @@ export const postOrder = (ingredientIds: string[]) => {
       authorization: localStorage.getItem('accessToken') || ''
     }
   })
-    .then(checkResponse);
+    .then(checkResponse<TOrder>);
 };
 
 export const login = (form: Omit<TUserData, 'name'>): Promise<TUserResponse> => {
@@ -157,16 +158,16 @@ export const resetPassword = (form: TResetPassword): Promise<Pick<TTokens, 'succ
     });
 }
 
-export const getUser = (): Promise<Omit<TUserData, 'password'>> => {
+export const getUser = (): Promise<Omit<TUserResponse, 'accessToken' | 'refreshToken'>> => {
   const options = {
     method: 'GET',
     headers: {
       ...header,
-      authorization: localStorage.getItem('accessToken')|| ''
+      authorization: localStorage.getItem('accessToken') || ''
     }
   };
 
-  return fetchWithRefresh<Omit<TUserData, 'password'>>(USER_URL, options);
+  return fetchWithRefresh<TUserResponse>(USER_URL, options);
 };
 
 export const updateUserData = (form: TUserData): Promise<TUserResponse> => {
@@ -181,3 +182,7 @@ export const updateUserData = (form: TUserData): Promise<TUserResponse> => {
 
   return fetchWithRefresh<TUserResponse>(USER_URL, options);
 };
+
+export const getOrderByNumber = (number: number): Promise<{success: boolean, orders: TFeedOrder[]}> => 
+  fetch(`${ORDER_URL}/${number}`)
+    .then(checkResponse<{success: boolean, orders: TFeedOrder[]}>)

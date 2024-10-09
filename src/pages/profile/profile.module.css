@@ -6,8 +6,10 @@
 }
 
 .wrapper {
-  display: flex;
-  flex-wrap: wrap;
+  /* display: flex; */
+  /* flex-wrap: wrap; */
+  display: grid;
+  grid-template-columns: auto 1fr;
   column-gap: 60px;
 }
 

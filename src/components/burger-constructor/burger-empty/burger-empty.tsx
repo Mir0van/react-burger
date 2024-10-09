@@ -1,13 +1,12 @@
 import React from 'react';
 import styles from './burger-empty.module.css'
-import { useSelector } from 'react-redux';
+import { useSelector } from '../../../services/store';
 
 type TBurgerEmptyMainProps = {
   position?: 'top' | 'bottom';
 }
 
 export default function BurgerEmpty({ position }: TBurgerEmptyMainProps) {
-  // @ts-ignore
   const { dragIngredientType } = useSelector((store) => store.ingredients);
 
   if (!position) {

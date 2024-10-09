@@ -44,3 +44,39 @@ export type TFetchOptions = {
     'Content-Type': string;
   };
 };
+
+export type TOrder = {
+  name: string;
+  order: {
+      number: number;
+  }
+}
+
+export enum WebsocketStatus {
+  CONNECTING = "CONNECTING",
+  ONLINE = 'ONLINE',
+  OFFLINE = 'OFFLINE',
+}
+
+export enum OrderStatus {
+  DONE = "done",
+  CREATED = "created",
+  PENDING = "pending",
+}
+
+export type TFeedOrder = {
+  _id: string;
+  ingredients: string[];
+  status: OrderStatus;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+  number: number;
+};
+
+export type TWsData = {
+  success: boolean;
+  orders: TFeedOrder[];
+  total: number;
+  totalToday: number;
+}

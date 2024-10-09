@@ -1,10 +1,9 @@
 import React from 'react'
 import styles from './order-details.module.css'
 import doneImage from '../../images/done.png'
-import { useSelector } from 'react-redux'
+import { useSelector } from '../../services/store'; 
 
 export default function OrderDetails(): React.JSX.Element {
-  // @ts-ignore
   const {orderNumber} = useSelector((store) => store.order);
 
   return (

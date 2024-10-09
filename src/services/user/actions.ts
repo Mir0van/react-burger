@@ -1,4 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { TUserData } from "../../utils/types";
 import {
   login as loginApi,
   register as registerApi,
@@ -7,7 +8,9 @@ import {
   updateUserData as updateUserDataApi
 } from "../../utils/burger-api";
 
-export const login = createAsyncThunk(
+type TUserResponseData = Omit<TUserData, 'password'>;
+
+export const login = createAsyncThunk<TUserResponseData, Omit<TUserData, 'name'>>(
   'user/login',
   async (form) => {
     const response = await loginApi(form);
@@ -15,7 +18,7 @@ export const login = createAsyncThunk(
   }
 );
 
-export const register = createAsyncThunk(
+export const register = createAsyncThunk<TUserResponseData, TUserData>(
   'user/register',
   async (form) => {
     const response = await registerApi(form);
@@ -28,7 +31,7 @@ export const logout = createAsyncThunk(
   async () => await logoutApi()
 );
 
-export const getUser = createAsyncThunk(
+export const getUser = createAsyncThunk<Omit<TUserData, 'password'>>(
   'user/getUser',
   async () => {
     const response = await getUserApi();
@@ -36,7 +39,7 @@ export const getUser = createAsyncThunk(
   }
 );
 
-export const updateUserData = createAsyncThunk(
+export const updateUserData = createAsyncThunk<TUserResponseData, TUserData>(
   'user/updateUserData',
   async (form) => {
     const response = await updateUserDataApi(form);

@@ -3,7 +3,7 @@ import {Button, EmailInput, Input, PasswordInput} from '@ya.praktikum/react-deve
 import {Link} from 'react-router-dom';
 import styles from './register.module.css'
 import {useForm} from '../../hooks/useForm';
-import {useDispatch} from 'react-redux';
+import { useDispatch } from '../../services/store';
 import {register} from '../../services/user/actions';
 
 export default function Register() {
@@ -18,8 +18,6 @@ export default function Register() {
   const handleSubmitForm = useCallback(
     (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
-      // тут будет логика отправки данных пользователя
-      // @ts-ignore
       dispatch(register(form))
       console.log(form, 'form register');
     },

@@ -6,8 +6,16 @@ import {
   getUser,
   updateUserData
 } from "./actions"
+import { TUserData } from "../../utils/types";
 
-const initialState = {
+type TInitialState = {
+  user: Omit<TUserData, 'password'> | null;
+  error: string | null;
+  isLoading: boolean;
+  isAuthChecked: boolean;
+};
+
+const initialState: TInitialState = {
   user: null,
   error: null,
   isLoading: false,
@@ -17,6 +25,7 @@ const initialState = {
 export const userSlice = createSlice({
   name: 'user',
   initialState,
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(login.fulfilled, (state, action) => {
@@ -29,7 +38,7 @@ export const userSlice = createSlice({
       })
       .addCase(login.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.error.message;
+        state.error = action.error.message ?? null;
       })
       .addCase(register.fulfilled, (state, action) => {
         state.user = action.payload;
@@ -41,9 +50,9 @@ export const userSlice = createSlice({
       })
       .addCase(register.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.error.message;
+        state.error = action.error.message ?? null;
       })
-      .addCase(logout.fulfilled, (state, action) => {
+      .addCase(logout.fulfilled, (state) => {
         state.user = null;
         state.isLoading = false;
       })
@@ -53,7 +62,7 @@ export const userSlice = createSlice({
       })
       .addCase(logout.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.error.message;
+        state.error = action.error.message ?? null;
       })
       .addCase(getUser.fulfilled, (state, action) => {
         state.user = action.payload;
@@ -66,7 +75,7 @@ export const userSlice = createSlice({
       })
       .addCase(getUser.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.error.message;
+        state.error = action.error.message ?? null;
         state.isAuthChecked = true;
       })
       .addCase(updateUserData.fulfilled, (state, action) => {
@@ -79,7 +88,7 @@ export const userSlice = createSlice({
       })
       .addCase(updateUserData.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.error.message;
+        state.error = action.error.message ?? null;
       })
   }
 });

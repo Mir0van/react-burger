@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { getIngredients } from '../../services/ingredients/actions';
 import { getUser } from '../../services/user/actions';
-import { useDispatch } from 'react-redux';
+import { useDispatch } from '../../services/store';
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import Layout from '../layout/layout';
 import Home from '../../pages/home/home';
@@ -17,6 +17,7 @@ import Profile from '../../pages/profile/profile';
 import ProfileInputs from '../profile-inputs/profile-inputs';
 import FeedHistory from '../feed-history/feed-history';
 import { OnlyAuth, OnlyUnAuth } from '../protected-route/protected-route';
+import FeedDetails from '../feed-details/feed-details';
 
 function App(): React.JSX.Element {
   const dispatch = useDispatch();
@@ -26,9 +27,7 @@ function App(): React.JSX.Element {
   const background = location.state && location.state.background;
 
   useEffect(() => {
-    // @ts-ignore
     dispatch(getUser())
-    // @ts-ignore
     dispatch(getIngredients())
   }, [dispatch])
 
@@ -42,15 +41,17 @@ function App(): React.JSX.Element {
         <Route path='/' element={<Layout />} >
           <Route index element={<Home />} />
           <Route path='ingredients/:ingredientId' element={<IngredientDetails />} />
-          <Route path="/login" element={<OnlyUnAuth component={<Login />} />} />
+          <Route path='/login' element={<OnlyUnAuth component={<Login />} />} />
           <Route path='/register' element={<OnlyUnAuth component={<Register />} />} />
-          <Route path='/forgot-password' element={<OnlyUnAuth component={<ForgotPassword />}/>} />
-          <Route path='/reset-password' element={<OnlyUnAuth component={<ResetPassword/>}/>} />
+          <Route path='/forgot-password' element={<OnlyUnAuth component={<ForgotPassword />} />} />
+          <Route path='/reset-password' element={<OnlyUnAuth component={<ResetPassword />} />} />
           <Route path='/feed' element={<Feed />} />
-          <Route path='/profile' element={<OnlyAuth component={<Profile/>}/>}>
+          <Route path='/feed/:number' element={<FeedDetails />} />
+          <Route path='/profile' element={<OnlyAuth component={<Profile />} />}>
             <Route index element={<ProfileInputs />} />
             <Route path='orders' element={<FeedHistory />} />
           </Route>
+          <Route path='/profile/orders/:number' element={<OnlyAuth component={<FeedDetails />} />} />
           <Route path='*' element={<NotFoundPage />} />
         </Route>
       </Routes>
@@ -63,6 +64,22 @@ function App(): React.JSX.Element {
             element={
               <Modal onClose={handleModalClose} header={'Детали ингредиента'}>
                 <IngredientDetails />
+              </Modal>
+            }
+          />
+          <Route
+            path='/feed/:number'
+            element={
+              <Modal onClose={handleModalClose}>
+                <FeedDetails />
+              </Modal>
+            }
+          />
+          <Route
+            path='/profile/orders/:number'
+            element={
+              <Modal onClose={handleModalClose}>
+                <FeedDetails />
               </Modal>
             }
           />

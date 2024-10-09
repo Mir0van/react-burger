@@ -2,16 +2,13 @@ import React, { useMemo, useRef } from 'react';
 import styles from './burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import IngredientList from '../ingredient-list/ingredient-list';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../../services/store';
 import { setCurrentTab } from '../../services/tabs/reducer';
 import {TBurgerIngredient} from "../../utils/types";
 
 export default function BurgerIngredients() {
-  // @ts-ignore
   const {currentTab} = useSelector(store => store.tabs)
-  // @ts-ignore
   const {ingredientsData, isLoading, error} = useSelector(store => store.ingredients)
-  // @ts-ignore
   const {bun, ingredients} = useSelector(store => store.burgerConstructor)
   const dispatch = useDispatch();
   const bunsRef = useRef<HTMLHeadingElement>(null)
