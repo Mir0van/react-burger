@@ -11,7 +11,7 @@ type TInitialState = {
   order: null | TFeedOrder
 }
 
-const initialState: TInitialState = {
+export const initialState: TInitialState = {
   isLoading: false,
   error: null,
   orderNumber: null,

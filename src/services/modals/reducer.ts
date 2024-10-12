@@ -6,7 +6,7 @@ type TInitialState = {
   isLoaderModalOpen: boolean;
 }
 
-const initialState: TInitialState = {
+export const initialState: TInitialState = {
   isOrderModalOpen: false,
   isIngredientModalOpen: false,
   isLoaderModalOpen: false,

@@ -7,7 +7,7 @@ export type TInitialState = {
   connectionError: string | null;
 };
 
-const initialState: TInitialState = {
+export const initialState: TInitialState = {
   status: WebsocketStatus.OFFLINE,
   data: null,
   connectionError: null,
