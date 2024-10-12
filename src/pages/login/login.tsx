@@ -35,6 +35,7 @@ export default function Login() {
               name={'email'}
               placeholder="E-mail"
               extraClass="mb-6"
+              data-testid='login-email'
               />
             <PasswordInput
               onChange={handleChangeInput}
@@ -42,8 +43,9 @@ export default function Login() {
               name={'password'}
               placeholder="Пароль"
               extraClass="mb-6"
+              data-testid='login-password'
             />
-            <Button htmlType="submit" type="primary" size="medium">
+            <Button htmlType="submit" type="primary" size="medium" data-testid='login-submit'>
               Войти
             </Button>
           </form>

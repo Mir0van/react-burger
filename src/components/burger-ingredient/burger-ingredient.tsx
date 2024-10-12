@@ -37,7 +37,7 @@ export default function BurgerIngredient({ ingredient, count }: TBurgerIngredien
   // console.log(isDrag, 'isDrag')
 
   return (
-    <li className={styles.item} ref={dragRef}>
+    <li className={styles.item} ref={dragRef} data-testid='drag-item'>
       <Link 
         className={styles.link}
         to={`/ingredients/${ingredient._id}`}

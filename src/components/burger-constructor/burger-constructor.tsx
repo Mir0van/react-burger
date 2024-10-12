@@ -107,7 +107,7 @@ export default function BurgerConstructor() {
   return ingredientsData && Boolean(ingredientsData.length) ? (
     <section className={styles.section}>
       <h2 className='visually-hidden'>Конструктор бургеров</h2>
-      <div className={`${styles.burger_constructor} mb-10`} ref={dropRef}>
+      <div className={`${styles.burger_constructor} mb-10`} ref={dropRef} data-testid='drop'>
         {!bun ? (
           <BurgerEmpty position='top' />
         ) : (
@@ -153,7 +153,7 @@ export default function BurgerConstructor() {
           <p className='text text_type_digits-medium mr-2'>{totalPrice}</p>
           <CurrencyIcon type='primary' />
         </div>
-        <Button disabled={!ingredients.length || !bun} htmlType="button" type="primary" size="large" onClick={handlePostOrder}>Оформить заказ</Button>
+        <Button disabled={!ingredients.length || !bun} htmlType="button" type="primary" size="large" onClick={handlePostOrder} data-testid='order-button'>Оформить заказ</Button>
       </div>
 
       {isLoaderModalOpen && (
