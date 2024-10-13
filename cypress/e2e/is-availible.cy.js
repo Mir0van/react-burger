@@ -6,7 +6,7 @@ describe('service is available', function() {
     cy.intercept("GET", "api/auth/user", { fixture: "user.json" });
   })
 
-  it('should be available on localhost:3000', function() {
-    cy.visit('http://localhost:3000');
+  it('should be available on localhost:3000 (see cypress.config.ts)', function() {
+    cy.visit('/');
   });
 });

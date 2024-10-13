@@ -1,4 +1,12 @@
 describe('test burger constructor', function () {
+  const selectors = {
+    dragItem: '[data-testid=drag-item]',
+    dropZone: '[data-testid=drop]',
+    orderButton: '[data-testid=order-button]',
+    modal: '[data-testid=modal]',
+    modalCloseButton: '[data-testid=modal-close-button]',
+  };
+
   beforeEach(() => {
     cy.viewport('macbook-15');
     window.localStorage.setItem("accessToken", "Bearer abrakadabra777"); // токен будет недействителен если моковый
@@ -10,24 +18,26 @@ describe('test burger constructor', function () {
   })
 
   it('should be able make an order', function () {
-    cy.visit('http://localhost:3000/');
+    cy.visit('/');
     cy.wait('@getIngredients');
 
-    cy.get('[data-testid=drag-item]').first().trigger('dragstart')
-    cy.get('[data-testid=drop]').trigger('drop')
+    cy.get(selectors.dragItem).first().trigger('dragstart')
+    cy.get(selectors.dropZone).as('dropZone');
+    cy.get('@dropZone').trigger('drop');
 
-    cy.contains('[data-testid=drag-item]', 'Соус').trigger('dragstart');
-    cy.get('[data-testid=drop]').trigger('drop');
+    cy.contains(selectors.dragItem, 'Соус').trigger('dragstart');
+    cy.get('@dropZone').trigger('drop');
 
-    cy.contains('[data-testid=drag-item]', 'Биокотлета').trigger('dragstart');
-    cy.get('[data-testid=drop]').trigger('drop');
+    cy.contains(selectors.dragItem, 'Биокотлета').trigger('dragstart');
+    cy.get('@dropZone').trigger('drop');
 
-    cy.get('[data-testid=order-button]').click();
+    cy.get(selectors.orderButton).click();
     cy.wait('@postOrder');
 
-    cy.get('[data-testid=modal]').should('exist');
-    cy.get('[data-testid=modal-close-button]').click();
-    cy.get('[data-testid=modal]').should('not.exist');
+    cy.get(selectors.modal).as('modal');
+    cy.get('@modal').should('exist');
+    cy.get(selectors.modalCloseButton).click();
+    cy.get('@modal').should('not.exist');
   });
 
   // -------------------------------------------------------------
