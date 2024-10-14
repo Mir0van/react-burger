@@ -1,0 +1,9 @@
+{
+  "success": true,
+  "accessToken": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MGE5ZDA3ZDgyOWJlMDAxYzc3NWVkMyIsImlhdCI6MTcyODc1NTAzNywiZXhwIjoxNzI4NzU2MjM3fQ.cRU4EtS5RVwTWbhs0H4TbtiscYST6RzHjPvM-DxsCiI",
+  "refreshToken": "66abe5dc63c9b4e02853bae3cf27ab5425aa640d0ca2006509e10a2bef446b5c2d105ff65139a381",
+  "user": {
+    "email": "qqq@qqq.q",
+    "name": "SOBAKA"
+  }
+}

@@ -30,19 +30,19 @@ export default function Modal({ header, children, onClose }: TModalProps): React
 
   return ReactDOM.createPortal(
     (
-      <div className={`${styles.modal}`}>
+      <div className={`${styles.modal}`} data-testid='modal'>
         <div className={styles.wrapper}>
           <ModalOverlay onClose={onClose} />
           <div className={styles.content}>
             {header ? (
               <div className={styles.header}>
                 <p className='text text_type_main-large mt-3'>{header}</p>
-                <button className={styles.close_btn} onClick={onClose}>
+                <button className={styles.close_btn} onClick={onClose} data-testid='modal-close-button'>
                   <CloseIcon type='primary' />
                 </button>
               </div>
             ) : (
-              <button className={`${styles.close_btn} ${styles.close_btn__float}`} onClick={onClose}>
+              <button className={`${styles.close_btn} ${styles.close_btn__float}`} onClick={onClose} data-testid='modal-close-button'>
                 <CloseIcon type='primary' />
               </button>
             )}

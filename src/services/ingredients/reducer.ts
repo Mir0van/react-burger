@@ -12,7 +12,7 @@ type TInitialState = {
   dragIngredientType: string | null;
 };
 
-const initialState: TInitialState = {
+export const initialState: TInitialState = {
   ingredientsData: [],
   error: null,
   isLoading: false,

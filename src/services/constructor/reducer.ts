@@ -6,7 +6,7 @@ type TInitialState = {
   ingredients: TDragIngredient[];
 }
 
-const initialState: TInitialState = {
+export const initialState: TInitialState = {
   bun: null,
   ingredients: []
 }
